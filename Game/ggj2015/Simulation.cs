@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using System.Linq;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using ggj2015.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Nuclex.Input.Devices;
@@ -14,6 +16,8 @@ namespace ggj2015
 	class Simulation
 	{
 		public Player[] Players;
+
+		public readonly List<Bomb> Bombs = new List<Bomb>();
 
 		public void InitialPopulate()
 		{
@@ -78,6 +82,21 @@ namespace ggj2015
 
 
 			Players[0].ApplyMovementForce();
+			Players[0].BombUpdate(gameTime);
+		}
+
+		public bool TryCreateBomb(Player player, int x, int y)
+		{
+			if (Bombs.Any(b => b.X == x && b.Y == y))
+				return false;
+			Bombs.Add(new Bomb(player, x, y));
+			return true;
+		}
+
+		public void PostPhysicsUpdate()
+		{
+			foreach(var bomb in Bombs)
+				bomb.PostPhysicsUpdate();
 		}
 	}
 }

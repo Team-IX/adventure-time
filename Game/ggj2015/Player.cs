@@ -28,6 +28,9 @@ namespace ggj2015
 			Color = color;
 			Body = body;
 			PlayerNumber = playerNumber;
+
+
+			Body.UserData = this;
 		}
 
 		public void ConsumePacket(ControlPacket packet)
@@ -95,6 +98,25 @@ namespace ggj2015
 					Body.ApplyForce(new Vector2(-PlayerMovementForce, 0));
 				else if (movement == Control.Right)
 					Body.ApplyForce(new Vector2(PlayerMovementForce, 0));
+			}
+		}
+
+		public int MaxBombs = 1;
+
+		public int PlacedBombs = 0;
+
+		public void BombUpdate(GameTime gameTime)
+		{
+			if (!ResolveBombVote())
+				return;
+
+			if (PlacedBombs < MaxBombs)
+			{
+				var pos = Body.Position;
+				if (Globals.Simulation.TryCreateBomb(this, (int)Math.Round(pos.X / GameWorld.CellSize), (int)Math.Round(pos.Y / GameWorld.CellSize)))
+				{
+					PlacedBombs++;
+				}
 			}
 		}
 	}

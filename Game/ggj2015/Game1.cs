@@ -113,6 +113,7 @@ namespace ggj2015
 			// TODO: Add your update logic here
 
 			Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
+			Globals.Simulation.PostPhysicsUpdate();
 		}
 
 		/// <summary>
@@ -140,7 +141,6 @@ namespace ggj2015
 			var projection = Matrix.CreateOrthographicOffCenter(ConvertUnits.ToSimUnits(0 - ConvertUnits.LeftOffset), ConvertUnits.ToSimUnits(Globals.RenderWidth - ConvertUnits.LeftOffset), ConvertUnits.ToSimUnits(Globals.RenderHeight - ConvertUnits.TopOffset), ConvertUnits.ToSimUnits(0 - ConvertUnits.TopOffset), -1, 1);
 			_debugView.RenderDebugData(projection, Matrix.Identity);
 
-			Console.WriteLine(Globals.Simulation.Players[0].Body.LinearVelocity);
 			base.Draw(gameTime);
 		}
 	}
