@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework;
 using Nuclex.Input;
 
 namespace ggj2015
@@ -18,5 +19,7 @@ namespace ggj2015
 		public static SharedControlsManager Controls { get; set; }
 		public static WebServer WebServer { get; set; }
 		public static GameWorld GameWorld { get; set; }
+		public static Simulation Simulation { get; set; }
+		public static GameTime GameTime { get; set; }
 	}
 }

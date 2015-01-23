@@ -40,8 +40,9 @@ namespace ggj2015
 			IsMouseVisible = true;
 
 			Globals.GameWorld = new GameWorld();
-			Globals.Controls = new SharedControlsManager(4);
+			Globals.Controls = new SharedControlsManager();
 			Globals.WebServer = new WebServer(Globals.Controls);
+			Globals.Simulation = new Simulation();
 		}
 
 		/// <summary>
@@ -75,9 +76,8 @@ namespace ggj2015
 			_debugView.Flags = DebugViewFlags.Shape;
 			//_debugView.Flags = (DebugViewFlags)0xff;
 
-
 			Globals.GameWorld.InitialPopulate();
-
+			Globals.Simulation.InitialPopulate();
 			//BodyFactory.CreateCircle(Globals.World, 20, 1, new Vector2(10, 50), BodyType.Dynamic);
 		}
 
@@ -102,15 +102,20 @@ namespace ggj2015
 		protected override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
+
+			Globals.GameTime = gameTime;
 			//Looks like keyboards[4] is the one (windowmessage keyboard)
 			var states = Globals.Input.Keyboards.Select(x => x.GetState()).ToArray();
 			var gamePadState = Globals.Input.GamePads[0].GetState();
 			if (gamePadState.Buttons.Back == ButtonState.Pressed || states.Any(s => s.IsKeyDown(Keys.Escape)))
 				Exit();
 
+			Globals.Simulation.UpdateControls(gameTime);
+			Globals.Simulation.Update();
 			// TODO: Add your update logic here
 
 			Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
+			Globals.Simulation.PostPhysicsUpdate();
 		}
 
 		/// <summary>
@@ -123,20 +128,20 @@ namespace ggj2015
 
 			// TODO: Add your drawing code here
 
-			//var projection = Matrix.CreateOrthographicOffCenter(0, ConvertUnits.ToSimUnits(GraphicsDevice.PresentationParameters.BackBufferWidth), 0, ConvertUnits.ToSimUnits(GraphicsDevice.PresentationParameters.BackBufferHeight), -1, 1);
-			var projection = Matrix.CreateOrthographicOffCenter(0, ConvertUnits.ToSimUnits(Globals.RenderWidth), 0, ConvertUnits.ToSimUnits(Globals.RenderHeight), -1, 1);
-			_debugView.RenderDebugData(projection, Matrix.Identity);
-
 			_spriteBatch.Begin(transformMatrix: Matrix.CreateScale((float)GraphicsDevice.PresentationParameters.BackBufferWidth / Globals.RenderWidth, (float)GraphicsDevice.PresentationParameters.BackBufferHeight / Globals.RenderHeight, 1));
 
-			_spriteBatch.Draw(Resources.Test, new Vector2(100, 100));
-			_spriteBatch.Draw(Resources.Test, new Vector2(200, 200));
+			//_spriteBatch.Draw(Resources.Test, new Vector2(100, 100));
+			//_spriteBatch.Draw(Resources.Test, new Vector2(200, 200));
 
-			//_spriteBatch.Draw(Resources.Test, ConvertUnits.ToDisplayUnits(_circle.Position), origin: Resources.Test.CenteredOrigin());
-			//
+			_spriteBatch.Draw(Resources.Test, ConvertUnits.ToDisplayUnits(Globals.Simulation.Players[0].Body.Position), origin: Resources.Test.CenteredOrigin(), color: Color.FromNonPremultiplied(255,255,255, 60));
+
 			//_spriteBatch.Draw(Resources.Test, ConvertUnits.ToDisplayUnits(_rect.Position), origin: Resources.Test.CenteredOrigin(), rotation: -_rect.Rotation);
 
 			_spriteBatch.End();
+
+			//var projection = Matrix.CreateOrthographicOffCenter(0, ConvertUnits.ToSimUnits(GraphicsDevice.PresentationParameters.BackBufferWidth), 0, ConvertUnits.ToSimUnits(GraphicsDevice.PresentationParameters.BackBufferHeight), -1, 1);
+			var projection = Matrix.CreateOrthographicOffCenter(ConvertUnits.ToSimUnits(0 - ConvertUnits.LeftOffset), ConvertUnits.ToSimUnits(Globals.RenderWidth - ConvertUnits.LeftOffset), ConvertUnits.ToSimUnits(Globals.RenderHeight - ConvertUnits.TopOffset), ConvertUnits.ToSimUnits(0 - ConvertUnits.TopOffset), -1, 1);
+			_debugView.RenderDebugData(projection, Matrix.Identity);
 
 			base.Draw(gameTime);
 		}

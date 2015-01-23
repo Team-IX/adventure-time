@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using ggj2015.GameObjects;
 using Microsoft.Xna.Framework;
 
 namespace ggj2015
@@ -29,7 +31,7 @@ namespace ggj2015
 		public GameWorld()
 		{
 			Tiles = new Tile[Width, Height];
-
+			ObjectsInCells = new GameObject[Width, Height];
 			for (var x = 1; x < Width; x += 2)
 			{
 				for (var y = 1; y < Height; y += 2)
@@ -86,6 +88,11 @@ namespace ggj2015
 
 */
 
+		public static float PlayerScale = 0.85f;
+		public static float PlayerRadius = CellSize * PlayerScale * 0.3f;
+
+		public static float UnbreakableWallRadius = CellSize * 0.3f;
+
 		public void InitialPopulate()
 		{
 			for (var y = 0; y < Height; y++)
@@ -110,29 +117,58 @@ namespace ggj2015
 
 			//Outside walls
 			//Left
-			BodyFactory.CreateRectangle(Globals.World, CellSize, (Height + 1) * CellSize, 0, new Vector2(LeftOffset - CellSize * 0.5f, BottomOffset + (Height * 0.5f) * CellSize));
+			BodyFactory.CreateRectangle(Globals.World, CellSize, (Height + 1) * CellSize, 0, new Vector2(- CellSize, (Height * 0.5f) * CellSize));
 			//Right
-			BodyFactory.CreateRectangle(Globals.World, CellSize, (Height + 1) * CellSize, 0, new Vector2(LeftOffset + (Width * CellSize)  + CellSize * 0.5f, BottomOffset + (Height * 0.5f) * CellSize));
+			BodyFactory.CreateRectangle(Globals.World, CellSize, (Height + 1) * CellSize, 0, new Vector2((Width * CellSize), (Height * 0.5f) * CellSize - CellSize));
 
 			//Top
-			BodyFactory.CreateRectangle(Globals.World, (Width + 1) * CellSize, CellSize, 0, new Vector2(LeftOffset + (Width * 0.5f) * CellSize, BottomOffset - CellSize * 0.5f));
+			BodyFactory.CreateRectangle(Globals.World, (Width + 1) * CellSize, CellSize, 0, new Vector2((Width * 0.5f) * CellSize - CellSize, -CellSize));
 			//Bottom
-			BodyFactory.CreateRectangle(Globals.World, (Width + 1) * CellSize, CellSize, 0, new Vector2(LeftOffset + (Width * 0.5f) * CellSize, BottomOffset + Height * CellSize + CellSize * 0.5f));
+			BodyFactory.CreateRectangle(Globals.World, (Width + 1) * CellSize, CellSize, 0, new Vector2((Width * 0.5f) * CellSize, Height * CellSize));
 		}
-
-		const int LeftOffset = 1;
-		const float BottomOffset = 0.2f;
 
 		private void CreateBreakableWall(int x, int y)
 		{
-			BodyFactory.CreateRectangle(Globals.World, CellSize, CellSize, 0, new Vector2(LeftOffset + (x + 0.5f) * CellSize, BottomOffset + (y + 0.5f) * CellSize));
+			//return;
+			var body = BodyFactory.CreateRectangle(Globals.World, CellSize, CellSize, 0, new Vector2(x * CellSize, y * CellSize));
+			ObjectsInCells[x, y] = new BreakableWall(body);
 		}
 
-		private const float CellSize = 0.6f;
+		public const float CellSize = 0.5f;
 
 		private void CreateUnbreakableWall(int x, int y)
 		{
-			BodyFactory.CreateRectangle(Globals.World, CellSize, CellSize, 0, new Vector2(LeftOffset + (x + 0.5f) * CellSize, BottomOffset + (y + 0.5f) * CellSize));
+			var body = BodyFactory.CreateRoundedRectangle(Globals.World, 
+				CellSize, CellSize,
+				UnbreakableWallRadius, UnbreakableWallRadius,
+				2, 0, 
+				new Vector2(x * CellSize, y * CellSize));
+			body.Friction = 0;
+
+			ObjectsInCells[x, y] = UnbreakableWall;
+			//BodyFactory.CreateRectangle(Globals.World, CellSize, CellSize, 0, new Vector2(x * CellSize, y * CellSize));
+		}
+
+		public readonly UnbreakableWall UnbreakableWall = new UnbreakableWall();
+
+
+		public void DestroyMaybe(int x, int y)
+		{
+			if (x < 0 || y < 0 || x >= Width || y >= Height)
+				return;
+
+			var o = ObjectsInCells[x, y];
+
+			if (o == null || o == UnbreakableWall)
+				return;
+
+			if (o is BreakableWall)
+			{
+				var b = (BreakableWall)o;
+
+				Globals.World.RemoveBody(b.Body);
+				ObjectsInCells[x, y] = null;
+			}
 		}
 	}
 }
