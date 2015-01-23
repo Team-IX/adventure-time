@@ -5,9 +5,7 @@ best game 2012 GOTY edition
 
 API:
 
-Group of people
-
-
+```
 /join
 returns: { playerNumber: 1, id: 1 }
 
@@ -31,3 +29,4 @@ document.head.appendChild(script);
 
 
 $.ajax('/update', { data:JSON.stringify({ id:1, controls: [ 'down', 'bomb' ]}), type:'POST', dataType:'json' });
+```
