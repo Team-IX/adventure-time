@@ -28,6 +28,8 @@ namespace ggj2015.GameObjects
 
 		public Body Body { get; set; }
 
+		public bool HasExploded { get; private set; }
+
 		public Bomb(Player player, int x, int y, TimeSpan placedTime)
 		{
 			X = x;
@@ -47,6 +49,7 @@ namespace ggj2015.GameObjects
 			_allowedToPassThrough = hits.Select(f => f.Body).Where(b => b.UserData is Player).ToList();
 
 			Body = BodyFactory.CreateCircle(Globals.World, GameWorld.CellSize / 2, 0, center, BodyType.Static, this);
+			Body.UserData = this;
 
 			Body.OnCollision += BodyOnOnCollision;
 		}
@@ -72,10 +75,18 @@ namespace ggj2015.GameObjects
 			_hitThisFrame.Clear();
 		}
 
-		public Explosion ExplodeMaybe()
+		public void ExplodeMaybe()
 		{
 			if (Globals.GameTime.TotalGameTime < PlacedTime + LifeTime)
-				return null;
+				return;
+
+			ForceExplode();
+		}
+
+		public void ForceExplode()
+		{
+			if (HasExploded)
+				return;
 
 			//Scan to the left
 			int minX = X;
@@ -145,9 +156,10 @@ namespace ggj2015.GameObjects
 
 
 			//Remove ourself and make an explosion which handles the killing
+			HasExploded = true;
 			Globals.World.RemoveBody(Body);
 			Player.PlacedBombs--;
-			return new Explosion(X, Y, minX, maxX, minY, maxY);
+			Globals.Simulation.Explosions.Add(new Explosion(X, Y, minX, maxX, minY, maxY));
 		}
 	}
 }

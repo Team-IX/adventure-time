@@ -301,13 +301,13 @@ namespace FarseerPhysics.Dynamics.Contacts
 
                         // Report the collision to both participants. Track which ones returned true so we can
                         // later call OnSeparation if the contact is disabled for a different reason.
-                        if (FixtureA.OnCollision != null)
+                        if (FixtureA != null && FixtureA.OnCollision != null)
                             foreach (OnCollisionEventHandler handler in FixtureA.OnCollision.GetInvocationList())
                                 enabledA = handler(FixtureA, FixtureB, this) && enabledA;
 
                         // Reverse the order of the reported fixtures. The first fixture is always the one that the
                         // user subscribed to.
-                        if (FixtureB.OnCollision != null)
+                        if (FixtureB != null && FixtureB.OnCollision != null)
                             foreach (OnCollisionEventHandler handler in FixtureB.OnCollision.GetInvocationList())
                                 enabledB = handler(FixtureB, FixtureA, this) && enabledB;
 

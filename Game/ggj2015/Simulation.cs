@@ -42,10 +42,10 @@ namespace ggj2015
 			for (var i = 0; i < Player.Count; i++)
 			{
 				var pos = playerCellStarts[i];
-				var playerBody = BodyFactory.CreateRoundedRectangle(Globals.World, 
-					GameWorld.CellSize * GameWorld.PlayerScale, GameWorld.CellSize * GameWorld.PlayerScale, 
-					GameWorld.PlayerRadius, GameWorld.PlayerRadius, 
-					4, 0.01f, 
+				var playerBody = BodyFactory.CreateRoundedRectangle(Globals.World,
+					GameWorld.CellSize * GameWorld.PlayerScale, GameWorld.CellSize * GameWorld.PlayerScale,
+					GameWorld.PlayerRadius, GameWorld.PlayerRadius,
+					4, 0.01f,
 					new Vector2(pos.X * GameWorld.CellSize, pos.Y * GameWorld.CellSize), bodyType: BodyType.Dynamic);
 				playerBody.FixedRotation = true;
 				playerBody.LinearDamping = 20;
@@ -64,12 +64,7 @@ namespace ggj2015
 		{
 			foreach (var bomb in Bombs.ToArray())
 			{
-				var explosion = bomb.ExplodeMaybe();
-				if (explosion == null)
-					continue;
-
-				Bombs.Remove(bomb);
-				Explosions.Add(explosion);
+				bomb.ExplodeMaybe();
 			}
 
 			foreach (var e in Explosions.ToArray())
@@ -79,6 +74,8 @@ namespace ggj2015
 					Explosions.Remove(e);
 				}
 			}
+
+			Bombs.RemoveAll(x => x.HasExploded);
 		}
 
 
@@ -115,7 +112,7 @@ namespace ggj2015
 
 		public void PostPhysicsUpdate()
 		{
-			foreach(var bomb in Bombs)
+			foreach (var bomb in Bombs)
 				bomb.PostPhysicsUpdate();
 		}
 	}

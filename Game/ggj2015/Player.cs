@@ -22,11 +22,11 @@ namespace ggj2015
 		public int PersonCount;
 
 
-		public int MaxBombs = 1;
+		public int MaxBombs = 2;
 		public int PlacedBombs = 0;
 
 		public TimeSpan BombLifeTime { get; set; }
-		public int BombExplosionSize = 1;
+		public int BombExplosionSize = 2;
 
 
 		private readonly Dictionary<int, ControlPacket> _votes = new Dictionary<int, ControlPacket>(); 

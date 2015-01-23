@@ -30,11 +30,13 @@ namespace ggj2015.GameObjects
 			var centerForX = new Vector2(midX, centerY * GameWorld.CellSize);
 			var centerForY = new Vector2(centerX * GameWorld.CellSize, midY);
 
-			Body = BodyFactory.CreateRectangle(Globals.World, (maxX - minX + 1) * GameWorld.CellSize - Padding, GameWorld.CellSize - Padding, 0, centerForX, 0, BodyType.Static, this);
+			Body = BodyFactory.CreateRectangle(Globals.World, (maxX - minX + 1) * GameWorld.CellSize - Padding, GameWorld.CellSize - Padding, 0, centerForX, 0, BodyType.Dynamic, this);
+			Body.SleepingAllowed = false;
 			Body.IsSensor = true;
 			Body.OnCollision += BodyOnOnCollision;
 
-			Body2 = BodyFactory.CreateRectangle(Globals.World, GameWorld.CellSize - Padding, (maxY - minY + 1) * GameWorld.CellSize - Padding, 0, centerForY, 0, BodyType.Static, this);
+			Body2 = BodyFactory.CreateRectangle(Globals.World, GameWorld.CellSize - Padding, (maxY - minY + 1) * GameWorld.CellSize - Padding, 0, centerForY, 0, BodyType.Dynamic, this);
+			Body2.SleepingAllowed = false;
 			Body2.IsSensor = true;
 			Body2.OnCollision += BodyOnOnCollision;
 		}
@@ -46,6 +48,8 @@ namespace ggj2015.GameObjects
 
 			if (otherBody.UserData is Player)
 				((Player)otherBody.UserData).Die();
+			if (otherBody.UserData is Bomb)
+				((Bomb)otherBody.UserData).ForceExplode();
 
 			return true;
 		}
