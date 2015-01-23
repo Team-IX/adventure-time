@@ -18,6 +18,7 @@ namespace ggj2015
 		public Player[] Players;
 
 		public readonly List<Bomb> Bombs = new List<Bomb>();
+		public readonly List<Explosion> Explosions = new List<Explosion>();
 
 		public void InitialPopulate()
 		{
@@ -49,6 +50,7 @@ namespace ggj2015
 				playerBody.FixedRotation = true;
 				playerBody.LinearDamping = 20;
 				playerBody.Friction = 0;
+				playerBody.SleepingAllowed = false;
 
 				//var limit = new VelocityLimitController(PlayerMaximumVelocity, 0);
 				//Globals.World.AddController(limit);
@@ -58,9 +60,27 @@ namespace ggj2015
 			}
 		}
 
-		public void Update(GameTime gameTime)
+		public void Update()
 		{
+			foreach (var bomb in Bombs.ToArray())
+			{
+				var explosion = bomb.ExplodeMaybe();
+				if (explosion == null)
+					continue;
+
+				Bombs.Remove(bomb);
+				Explosions.Add(explosion);
+			}
+
+			foreach (var e in Explosions.ToArray())
+			{
+				if (e.IsFinished())
+				{
+					Explosions.Remove(e);
+				}
+			}
 		}
+
 
 		public void UpdateControls(GameTime gameTime)
 		{
@@ -89,7 +109,7 @@ namespace ggj2015
 		{
 			if (Bombs.Any(b => b.X == x && b.Y == y))
 				return false;
-			Bombs.Add(new Bomb(player, x, y));
+			Bombs.Add(new Bomb(player, x, y, Globals.GameTime.TotalGameTime));
 			return true;
 		}
 

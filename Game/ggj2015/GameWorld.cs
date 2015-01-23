@@ -144,7 +144,31 @@ namespace ggj2015
 				2, 0, 
 				new Vector2(x * CellSize, y * CellSize));
 			body.Friction = 0;
+
+			ObjectsInCells[x, y] = UnbreakableWall;
 			//BodyFactory.CreateRectangle(Globals.World, CellSize, CellSize, 0, new Vector2(x * CellSize, y * CellSize));
+		}
+
+		public readonly UnbreakableWall UnbreakableWall = new UnbreakableWall();
+
+
+		public void DestroyMaybe(int x, int y)
+		{
+			if (x < 0 || y < 0 || x >= Width || y >= Height)
+				return;
+
+			var o = ObjectsInCells[x, y];
+
+			if (o == null || o == UnbreakableWall)
+				return;
+
+			if (o is BreakableWall)
+			{
+				var b = (BreakableWall)o;
+
+				Globals.World.RemoveBody(b.Body);
+				ObjectsInCells[x, y] = null;
+			}
 		}
 	}
 }

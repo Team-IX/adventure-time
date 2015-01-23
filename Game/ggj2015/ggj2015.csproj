@@ -48,6 +48,8 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjects\Bomb.cs" />
     <Compile Include="GameObjects\BreakableWall.cs" />
+    <Compile Include="GameObjects\Explosion.cs" />
+    <Compile Include="GameObjects\UnbreakableWall.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

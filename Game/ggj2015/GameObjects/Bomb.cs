@@ -22,14 +22,22 @@ namespace ggj2015.GameObjects
 
 		public int X { get; set; }
 		public int Y { get; set; }
+		public readonly TimeSpan PlacedTime;
+		public TimeSpan LifeTime { get; set; }
+		public int ExplosionSize { get; set; }
 
 		public Body Body { get; set; }
 
-		public Bomb(Player player, int x, int y)
+		public Bomb(Player player, int x, int y, TimeSpan placedTime)
 		{
 			X = x;
 			Y = y;
+
+			PlacedTime = placedTime;
+			LifeTime = player.BombLifeTime;
+			ExplosionSize = player.BombExplosionSize;
 			Player = player;
+
 			Vector2 center = new Vector2(x, y) * GameWorld.CellSize;
 
 			//Figure out what we are colliding with at the start
@@ -42,6 +50,8 @@ namespace ggj2015.GameObjects
 
 			Body.OnCollision += BodyOnOnCollision;
 		}
+
+
 
 		private bool BodyOnOnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
 		{
@@ -60,6 +70,84 @@ namespace ggj2015.GameObjects
 		{
 			_allowedToPassThrough.RemoveAll(x => !_hitThisFrame.Contains(x));
 			_hitThisFrame.Clear();
+		}
+
+		public Explosion ExplodeMaybe()
+		{
+			if (Globals.GameTime.TotalGameTime < PlacedTime + LifeTime)
+				return null;
+
+			//Scan to the left
+			int minX = X;
+			bool hitSomething = false;
+			for (minX = X; minX >= X - ExplosionSize && minX >= 0; minX--)
+			{
+				var o = Globals.GameWorld.ObjectsInCells[minX, Y];
+				if (o == null)
+					continue;
+
+				hitSomething = true;
+				break;
+			}
+			if (!hitSomething || Globals.GameWorld.ObjectsInCells[minX, Y] is UnbreakableWall)
+				minX++;
+
+			//Scan to the right
+			int maxX = X;
+			hitSomething = false;
+			for (maxX = X; maxX <= X + ExplosionSize && maxX < GameWorld.Width; maxX++)
+			{
+				var o = Globals.GameWorld.ObjectsInCells[maxX, Y];
+				if (o == null)
+					continue;
+
+				hitSomething = true;
+				break;
+			}
+			if (!hitSomething || Globals.GameWorld.ObjectsInCells[maxX, Y] is UnbreakableWall)
+				maxX--;
+
+			//Scan to the up
+			int minY = Y;
+			hitSomething = false;
+			for (minY = Y; minY >= Y - ExplosionSize && minY >= 0; minY--)
+			{
+				var o = Globals.GameWorld.ObjectsInCells[X, minY];
+				if (o == null)
+					continue;
+
+				hitSomething = true;
+				break;
+			}
+			if (!hitSomething || Globals.GameWorld.ObjectsInCells[X, minY] is UnbreakableWall)
+				minY++;
+
+			//Scan to the down
+			int maxY = Y;
+			hitSomething = false;
+			for (maxY = Y; maxY <= Y + ExplosionSize && maxY < GameWorld.Height; maxY++)
+			{
+				var o = Globals.GameWorld.ObjectsInCells[X, maxY];
+				if (o == null)
+					continue;
+
+				hitSomething = true;
+				break;
+			}
+			if (!hitSomething || Globals.GameWorld.ObjectsInCells[X, maxY] is UnbreakableWall)
+				maxY--;
+
+			//Destroy what we hit if breakable
+			Globals.GameWorld.DestroyMaybe(minX, Y);
+			Globals.GameWorld.DestroyMaybe(maxX, Y);
+			Globals.GameWorld.DestroyMaybe(X, maxY);
+			Globals.GameWorld.DestroyMaybe(X, minY);
+
+
+			//Remove ourself and make an explosion which handles the killing
+			Globals.World.RemoveBody(Body);
+			Player.PlacedBombs--;
+			return new Explosion(X, Y, minX, maxX, minY, maxY);
 		}
 	}
 }

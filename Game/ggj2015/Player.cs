@@ -21,6 +21,14 @@ namespace ggj2015
 
 		public int PersonCount;
 
+
+		public int MaxBombs = 1;
+		public int PlacedBombs = 0;
+
+		public TimeSpan BombLifeTime { get; set; }
+		public int BombExplosionSize = 1;
+
+
 		private readonly Dictionary<int, ControlPacket> _votes = new Dictionary<int, ControlPacket>(); 
 
 		public Player(int playerNumber, string color, Body body)
@@ -29,6 +37,7 @@ namespace ggj2015
 			Body = body;
 			PlayerNumber = playerNumber;
 
+			BombLifeTime = TimeSpan.FromSeconds(3);
 
 			Body.UserData = this;
 		}
@@ -101,10 +110,6 @@ namespace ggj2015
 			}
 		}
 
-		public int MaxBombs = 1;
-
-		public int PlacedBombs = 0;
-
 		public void BombUpdate(GameTime gameTime)
 		{
 			if (!ResolveBombVote())
@@ -118,6 +123,12 @@ namespace ggj2015
 					PlacedBombs++;
 				}
 			}
+		}
+
+		public void Die()
+		{
+			//todo
+			Body.BodyType = BodyType.Static;
 		}
 	}
 }

@@ -102,6 +102,8 @@ namespace ggj2015
 		protected override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
+
+			Globals.GameTime = gameTime;
 			//Looks like keyboards[4] is the one (windowmessage keyboard)
 			var states = Globals.Input.Keyboards.Select(x => x.GetState()).ToArray();
 			var gamePadState = Globals.Input.GamePads[0].GetState();
@@ -109,7 +111,7 @@ namespace ggj2015
 				Exit();
 
 			Globals.Simulation.UpdateControls(gameTime);
-			Globals.Simulation.Update(gameTime);
+			Globals.Simulation.Update();
 			// TODO: Add your update logic here
 
 			Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
