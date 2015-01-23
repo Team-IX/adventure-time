@@ -7,11 +7,11 @@ API:
 
 ```
 /join
-returns: { playerNumber: 1, id: 1 }
+returns: { playerNumber: 1, id: 1, color: '#ff0000' }
 
 ^^ player number is 1-4
 id is a number too, this is your unique id.
-
+color is a hex color for the player
 
 
 /update
