@@ -5,24 +5,12 @@ namespace ggj2015
 {
 	public class SharedControlsManager
 	{
-		private Player[] _players;
-		private Dictionary<int, Player> _idLookup = new Dictionary<int, Player>();
+		private readonly Dictionary<int, Player> _idLookup = new Dictionary<int, Player>();
 
 		private int _personIdCounter = 0;
 
-		public SharedControlsManager(int playerCount)
+		public SharedControlsManager()
 		{
-			var colors = new[]
-			{
-				"#ff0000",
-				"#00ff00",
-				"#0000ff",
-				"#ffffff"
-			};
-
-			_players = new Player[playerCount];
-			for (var i = 0; i < playerCount; i++)
-				_players[i] = new Player(i, colors[i]);
 		}
 
 
@@ -33,12 +21,12 @@ namespace ggj2015
 				Player p;
 				if (playerNumber.HasValue)
 				{
-					p = _players[playerNumber.Value];
+					p = Globals.Simulation.Players[playerNumber.Value];
 				}
 				else
 				{
-					var minCount = _players.Min(x => x.PersonCount);
-					p = _players.First(x => x.PersonCount == minCount);
+					var minCount = Globals.Simulation.Players.Min(x => x.PersonCount);
+					p = Globals.Simulation.Players.First(x => x.PersonCount == minCount);
 				}
 
 				p.PersonCount++;
@@ -50,7 +38,7 @@ namespace ggj2015
 
 		public void Update(ControlPacket packet)
 		{
-			_idLookup[packet.Id].Update(packet);
+			_idLookup[packet.Id].ConsumePacket(packet);
 		}
 	}
 

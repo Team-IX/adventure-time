@@ -18,5 +18,6 @@ namespace ggj2015
 		public static SharedControlsManager Controls { get; set; }
 		public static WebServer WebServer { get; set; }
 		public static GameWorld GameWorld { get; set; }
+		public static Simulation Simulation { get; set; }
 	}
 }

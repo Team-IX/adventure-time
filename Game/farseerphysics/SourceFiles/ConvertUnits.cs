@@ -15,6 +15,8 @@ namespace FarseerPhysics
         private static float _displayUnitsToSimUnitsRatio = 100f;
         private static float _simUnitsToDisplayUnitsRatio = 1 / _displayUnitsToSimUnitsRatio;
 
+	    public const float LeftOffset = 60;
+	    public const float TopOffset = 60;
         public static void SetDisplayUnitToSimUnitRatio(float displayUnitsPerSimUnit)
         {
             _displayUnitsToSimUnitsRatio = displayUnitsPerSimUnit;
@@ -33,6 +35,7 @@ namespace FarseerPhysics
 
         public static Vector2 ToDisplayUnits(Vector2 simUnits)
         {
+			return new Vector2(LeftOffset, TopOffset) + (simUnits * _displayUnitsToSimUnitsRatio);
 	        var real = (simUnits * _displayUnitsToSimUnitsRatio);
 			return new Vector2(real.X, 720 - real.Y);
         }

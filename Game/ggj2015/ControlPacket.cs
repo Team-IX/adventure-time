@@ -8,6 +8,8 @@ namespace ggj2015
 {
 	public enum Control
 	{
+		NoMovement,
+
 		Down,
 		Up,
 		Left,
@@ -20,5 +22,15 @@ namespace ggj2015
 	{
 		public int Id;
 		public Control[] Controls;
+
+		public ControlPacket()
+		{
+		}
+
+		public ControlPacket(int id, params Control[] controls)
+		{
+			Id = id;
+			Controls = controls;
+		}
 	}
 }
