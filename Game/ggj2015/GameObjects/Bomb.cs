@@ -87,78 +87,11 @@ namespace ggj2015.GameObjects
 			if (HasExploded)
 				return;
 
-			//Scan to the left
-			int minX = X;
-			bool hitSomething = false;
-			for (minX = X; minX >= X - ExplosionSize && minX >= 0; minX--)
-			{
-				var o = Globals.GameWorld.ObjectsInCells[minX, Y];
-				if (o == null)
-					continue;
-
-				hitSomething = true;
-				break;
-			}
-			if (!hitSomething || Globals.GameWorld.ObjectsInCells[minX, Y] is UnbreakableWall)
-				minX++;
-
-			//Scan to the right
-			int maxX = X;
-			hitSomething = false;
-			for (maxX = X; maxX <= X + ExplosionSize && maxX < GameWorld.Width; maxX++)
-			{
-				var o = Globals.GameWorld.ObjectsInCells[maxX, Y];
-				if (o == null)
-					continue;
-
-				hitSomething = true;
-				break;
-			}
-			if (!hitSomething || Globals.GameWorld.ObjectsInCells[maxX, Y] is UnbreakableWall)
-				maxX--;
-
-			//Scan to the up
-			int minY = Y;
-			hitSomething = false;
-			for (minY = Y; minY >= Y - ExplosionSize && minY >= 0; minY--)
-			{
-				var o = Globals.GameWorld.ObjectsInCells[X, minY];
-				if (o == null)
-					continue;
-
-				hitSomething = true;
-				break;
-			}
-			if (!hitSomething || Globals.GameWorld.ObjectsInCells[X, minY] is UnbreakableWall)
-				minY++;
-
-			//Scan to the down
-			int maxY = Y;
-			hitSomething = false;
-			for (maxY = Y; maxY <= Y + ExplosionSize && maxY < GameWorld.Height; maxY++)
-			{
-				var o = Globals.GameWorld.ObjectsInCells[X, maxY];
-				if (o == null)
-					continue;
-
-				hitSomething = true;
-				break;
-			}
-			if (!hitSomething || Globals.GameWorld.ObjectsInCells[X, maxY] is UnbreakableWall)
-				maxY--;
-
-			//Destroy what we hit if breakable
-			Globals.GameWorld.DestroyMaybe(minX, Y);
-			Globals.GameWorld.DestroyMaybe(maxX, Y);
-			Globals.GameWorld.DestroyMaybe(X, maxY);
-			Globals.GameWorld.DestroyMaybe(X, minY);
-
-
 			//Remove ourself and make an explosion which handles the killing
 			HasExploded = true;
 			Globals.World.RemoveBody(Body);
 			Player.PlacedBombs--;
-			Globals.Simulation.Explosions.Add(new Explosion(X, Y, minX, maxX, minY, maxY));
+			Globals.Simulation.Explosions.Add(new Explosion(X, Y, ExplosionSize));
 		}
 
 		public void Render()

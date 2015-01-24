@@ -27,10 +27,7 @@ namespace ggj2015
 			public static Texture2D BackDead, ForeDead;
 		}
 
-		public static class Explosion
-		{
-			public static Texture2D Mid, Left, Right, Up, Down, LeftRight, UpDown;
-		}
+		public static Texture2D[] ExplosionAnim;
 
 		public static SpriteFont Font200;
 
@@ -60,16 +57,12 @@ namespace ggj2015
 			Player.BackDead = content.Load<Texture2D>("player/bgdead");
 			Player.ForeDead = content.Load<Texture2D>("player/dead");
 
-
-			Explosion.Mid = content.Load<Texture2D>("explosion/mid");
-
-			Explosion.Left = content.Load<Texture2D>("explosion/left");
-			Explosion.Right = content.Load<Texture2D>("explosion/right");
-			Explosion.Up = content.Load<Texture2D>("explosion/up");
-			Explosion.Down = content.Load<Texture2D>("explosion/down");
-
-			Explosion.LeftRight = content.Load<Texture2D>("explosion/leftright");
-			Explosion.UpDown = content.Load<Texture2D>("explosion/updown");
+			const int count = 22;
+			ExplosionAnim = new Texture2D[count];
+			for (var i = 0; i < count; i++)
+			{
+				ExplosionAnim[i] = content.Load<Texture2D>("explosion/anim/explosion" + (i + 1));
+			}
 
 
 			Font200 = content.Load<SpriteFont>("Cocogoose_200");

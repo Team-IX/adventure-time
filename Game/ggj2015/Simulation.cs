@@ -86,6 +86,7 @@ namespace ggj2015
 
 			foreach (var e in Explosions.ToArray())
 			{
+				e.Update();
 				if (e.IsFinished())
 				{
 					Explosions.Remove(e);

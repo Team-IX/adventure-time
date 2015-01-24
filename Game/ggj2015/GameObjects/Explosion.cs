@@ -12,58 +12,103 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ggj2015.GameObjects
 {
+	internal class ExplosionBody
+	{
+		public int X { get; set; }
+		public int Y { get; set; }
+		public Body Body;
+		public TimeSpan Created;
+
+		public static readonly TimeSpan LifeTime = TimeSpan.FromSeconds(0.4f);
+		public ExplosionBody(Body body, TimeSpan created, int x, int y)
+		{
+			X = x;
+			Y = y;
+			Body = body;
+			Created = created;
+		}
+	}
+
 	class Explosion : GameObject
 	{
 		private readonly int _centerX;
 		private readonly int _centerY;
+		private readonly int _explosionSize;
 		private readonly int _minX;
 		private readonly int _maxX;
 		private readonly int _minY;
 		private readonly int _maxY;
 
-		//from base public Body Body { get; set; }
-		public Body Body2 { get; set; }
+		private const float Padding = GameWorld.CellSize * 0.4f;
 
-		private const float Padding = GameWorld.CellSize * 0.2f;
+		public readonly List<ExplosionBody> Bodies = new List<ExplosionBody>();
+		private TimeSpan _lastExplosionCreatedTime;
+		private int _explosionsCreated;
 
-		public TimeSpan TimeToDie { get; set; }
-		public TimeSpan TimeCreated { get; set; }
+		private bool _leftStillGoing = true;
+		private bool _rightStillGoing = true;
+		private bool _upStillGoing = true;
+		private bool _downStillGoing = true;
 
-
-		public Explosion(int centerX, int centerY, int minX, int maxX, int minY, int maxY)
+		public Explosion(int centerX, int centerY, int explosionSize)
 		{
 			_centerX = centerX;
 			_centerY = centerY;
-			_minX = minX;
-			_maxX = maxX;
-			_minY = minY;
-			_maxY = maxY;
+			_explosionSize = explosionSize;
 
+			_lastExplosionCreatedTime = Globals.GameTime.TotalGameTime;
 
-			TimeCreated = Globals.GameTime.TotalGameTime;
-			TimeToDie = Globals.GameTime.TotalGameTime + TimeSpan.FromSeconds(0.3f);
+			CreateExplosion(centerX, centerY);
+		}
 
-			//				((Player)p.UserData).Die();
-			float midX = ((minX + maxX) / 2f) * GameWorld.CellSize;
-			float midY = ((minY + maxY) / 2f) * GameWorld.CellSize;
-			var centerForX = new Vector2(midX, centerY * GameWorld.CellSize);
-			var centerForY = new Vector2(centerX * GameWorld.CellSize, midY);
+		private bool TryCreateExplosion(int x, int y)
+		{
+			if (x < 0 || y < 0 || x >= GameWorld.Width || y >= GameWorld.Height)
+				return false;
 
-			Body = BodyFactory.CreateRectangle(Globals.World, (maxX - minX + 1) * GameWorld.CellSize - Padding, GameWorld.CellSize - Padding, 0, centerForX, 0, BodyType.Dynamic, this);
-			Body.SleepingAllowed = false;
-			Body.IsSensor = true;
-			Body.OnCollision += BodyOnOnCollision;
+			var hit = Globals.GameWorld.ObjectsInCells[x, y];
+			if (hit is UnbreakableWall)
+				return false;
 
-			Body2 = BodyFactory.CreateRectangle(Globals.World, GameWorld.CellSize - Padding, (maxY - minY + 1) * GameWorld.CellSize - Padding, 0, centerForY, 0, BodyType.Dynamic, this);
-			Body2.SleepingAllowed = false;
-			Body2.IsSensor = true;
-			Body2.OnCollision += BodyOnOnCollision;
+			//Already an explosion here
+			//if (Globals.Simulation.Explosions.Any(b => b.Bodies.Any(e => e.X == x && e.Y == y)))
+			//	return false;
+
+			CreateExplosion(x, y);
+
+			var otherBomb = Globals.Simulation.Bombs.FirstOrDefault(b => b.X == x && b.Y == y);
+			if (otherBomb != null)
+			{
+				otherBomb.ForceExplode();
+				//return false;
+			}
+
+			if (hit is BreakableWall)
+			{
+				Globals.GameWorld.DestroyMaybe(x, y);
+
+				return false;
+			}
+
+			return true;
+		}
+
+		private void CreateExplosion(int x, int y)
+		{
+			var body = BodyFactory.CreateRectangle(Globals.World, GameWorld.CellSize - Padding, GameWorld.CellSize - Padding, 0, new Vector2(x * GameWorld.CellSize, y * GameWorld.CellSize), 0, BodyType.Dynamic, this);
+			body.SleepingAllowed = false;
+			body.IsSensor = true;
+			body.OnCollision += BodyOnOnCollision;
+
+			Bodies.Add(new ExplosionBody(body, Globals.GameTime.TotalGameTime, x, y));
 		}
 
 
 		private bool BodyOnOnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
 		{
-			var otherBody = (fixtureA.Body == Body || fixtureA.Body == Body2) ? fixtureB.Body : fixtureA.Body;
+			var otherBody = Bodies.Any(x => x.Body == fixtureA.Body) ? fixtureB.Body : fixtureA.Body;
+
+			var part = Bodies.First(x => x.Body == fixtureA.Body || x.Body == fixtureB.Body);
 
 			if (otherBody.UserData is Player)
 				((Player)otherBody.UserData).Die();
@@ -72,61 +117,88 @@ namespace ggj2015.GameObjects
 			if (otherBody.UserData is PowerUp)
 			{
 				var p = (PowerUp)otherBody.UserData;
-				if (TimeCreated > p.TimeCreated + PowerUp.PowerUpInvulnerabilityStartTime)
+				if (part.Created > p.TimeCreated + PowerUp.PowerUpInvulnerabilityStartTime)
 					p.Destroy();
 			}
 			return true;
 		}
 
+		public void Update()
+		{
+			TimeSpan timeBetweenExplosions = TimeSpan.FromSeconds(0.2f);
+
+			//TODO: Expire _bodies
+
+			if (Globals.GameTime.TotalGameTime - _lastExplosionCreatedTime > timeBetweenExplosions && _explosionsCreated < _explosionSize)
+			{
+				_lastExplosionCreatedTime = Globals.GameTime.TotalGameTime;
+
+				_explosionsCreated++;
+
+				//left
+				if (_leftStillGoing)
+				{
+					if (!TryCreateExplosion(_centerX - _explosionsCreated, _centerY))
+					{
+						_leftStillGoing = false;
+					}
+				}
+
+				if (_rightStillGoing)
+				{
+					if (!TryCreateExplosion(_centerX + _explosionsCreated, _centerY)) //right
+					{
+						_rightStillGoing = false;
+					}
+				}
+
+				if (_upStillGoing)
+				{
+					if (!TryCreateExplosion(_centerX, _centerY - _explosionsCreated)) //up
+					{
+						_upStillGoing = false;
+					}
+				}
+
+				if (_downStillGoing)
+				{
+					if (!TryCreateExplosion(_centerX, _centerY + _explosionsCreated))
+					{
+						_downStillGoing = false;
+					}
+				}
+
+				//TODO: Create
+			}
+
+			foreach (var body in Bodies.ToArray())
+			{
+				if (body.Created + ExplosionBody.LifeTime < Globals.GameTime.TotalGameTime)
+				{
+					Globals.World.RemoveBody(body.Body);
+					Bodies.Remove(body);
+				}
+			}
+		}
+
 		public bool IsFinished()
 		{
-			if (Globals.GameTime.TotalGameTime < TimeToDie)
-				return false;
-
-
-			Globals.World.RemoveBody(Body);
-			Globals.World.RemoveBody(Body2);
-
-			return true;
+			return Bodies.Count == 0;
 		}
 
 		public void Render()
 		{
-			Draw(Resources.Explosion.Mid, _centerX, _centerY);
+			foreach (var part in Bodies)
+			{
+				var p = (Globals.GameTime.TotalGameTime - part.Created).TotalSeconds / ExplosionBody.LifeTime.TotalSeconds;
 
-			//Left-Right Left
-			for (var x = _minX + 1; x < _centerX; x++)
-				Draw(Resources.Explosion.LeftRight, x, _centerY);
-			//Left-Right Right
-			for (var x = _centerX + 1; x < _maxX; x++)
-				Draw(Resources.Explosion.LeftRight, x, _centerY);
-			//Left cap
-			if (_minX < _centerX)
-				Draw(Resources.Explosion.Left, _minX, _centerY);
-			//Left cap
-			if (_maxX > _centerX)
-				Draw(Resources.Explosion.Right, _maxX, _centerY);
-
-			//UP-Down up
-			for (var y = _minY + 1; y < _centerY; y++)
-				Draw(Resources.Explosion.UpDown, _centerX, y);
-			//updown down
-			for (var y = _centerY + 1; y < _maxY; y++)
-				Draw(Resources.Explosion.UpDown, _centerX, y);
-			//up cap
-			if (_minY < _centerY)
-				Draw(Resources.Explosion.Up, _centerX, _minY);
-			//down cap
-			if (_maxY > _centerY)
-				Draw(Resources.Explosion.Down, _centerX, _maxY);
-
-			
-			//bafasdasdewatwet
+				Draw(Resources.ExplosionAnim[Math.Min(21, (int)(p * Resources.ExplosionAnim.Length))], part.X, part.Y);
+			}
 		}
 
-		private void Draw(Texture2D texture2D, int x, int y)
+		private void Draw(Texture2D texture2D, int x, int y, Color? color = null)
 		{
-			Globals.SpriteBatch.DrawTileCell(texture2D, x, y);
+			Globals.SpriteBatch.Draw(texture2D, ConvertUnits.ToDisplayUnits(new Vector2(x, y) * GameWorld.CellSize), scale: new Vector2(Globals.TilePx / texture2D.Width) * 1.3f, origin: texture2D.CenteredOrigin(), color: color);
 		}
 	}
 }
