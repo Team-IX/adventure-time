@@ -6,15 +6,12 @@ var Player = {
 
 var keysPressed = {};
 
-$(document).ready(function ()
-{
-	// Disable scrolling
-	document.ontouchmove = function(event) {
-	    event.preventDefault();
-	}
+//$(document).ready(function ()
+//{
+//	connectToServer();
+//});
 
-	connectToServer();
-});
+document.addEventListener("DOMContentLoaded", connectToServer, false);
 
 function connectToServer()
 {
@@ -37,37 +34,19 @@ function connectToServer()
 	});
 }
 
+var isPressed = {};
+var locations = {};
+var lastHeld = [];
+
 function startGame()
 {
 	// Set background color and shit
 	$('.control').css('background-color', Player.color);
 	$('#bomb').text('Player ' + (Player.number + 1));
 
-	controls = document.getElementsByClassName('control');
-
-	for (var i = controls.length - 1; i >= 0; i--) {
-		if (window.navigator.msPointerEnabled) {
-			// MS Events (handles both touch and mouse input)
-			controls[i].addEventListener('MSPointerDown', handleTouch, false);
-			controls[i].addEventListener('MSPointerUp', handleTouch, false);
-		} else {
-			// Other browsers
-			controls[i].addEventListener('touchstart', handleTouch, false);
-			controls[i].addEventListener('touchend', handleTouch, false);
-			controls[i].addEventListener('touchenter', handleTouch, false);
-			controls[i].addEventListener('touchleave', handleTouch, false);
-			
-		}
-
-
-		// controls[i].addEventListener('touchstart', logTouchStart, false);
-		// controls[i].addEventListener('touchend', logTouchEnd, false);
-		// controls[i].addEventListener('touchcancel', logTouchCancel, false);
-	};
-
-	if (! window.navigator.msPointerEnabled) {
-		$('.control').on('mouseup mousedown mouseleave', handleClick);
-	}
+	document.body.addEventListener('pointerdown', handlePointer, true);
+	document.body.addEventListener('pointermove', handlePointer, true);
+	document.body.addEventListener('pointerup', handlePointer, true);
 
 	// Also for keyboard
 	$(document).on('keydown keyup', function(event)
@@ -79,19 +58,82 @@ function startGame()
 	$('.loading').hide();
 }
 
-function handleTouch(event)
+function handlePointer(e)
 {
-	event.preventDefault();
+	//console.log(e.type);
+	//console.log(Date());
+	if (e.type == 'pointerdown') {
+		isPressed[e.pointerId] = true;
+		locations[e.pointerId] = { x : e.clientX, y: e.clientY };
+	}
+	else if (e.type =='pointermove') {
+		e.preventDefault();
+		if (isPressed[e.pointerId]) {
+			locations[e.pointerId] = { x : e.clientX, y: e.clientY };
+		}
+	}
+	else if (e.type == 'pointerup') {
+		isPressed[e.pointerId] = false;
+		delete locations[e.pointerId];
+	}
+	updateMaybe();
+	
+	//return true;
+}
 
-	console.log('handling touch');
+function updateMaybe()
+{
+	var held = [];
+	
+	for (var i in isPressed)
+	{
+		if (isPressed[i]) 
+		{
+			var itemOn = testForHit(locations[i]);
+			
+			if (itemOn)
+				held.push(itemOn);
+		}
+	}
+	
+	if (held.length != lastHeld.length)
+	{
+		lastHeld = held;
+		tellServerWhatsUp(held);
+	}
+}
 
-	var touchedButtons = [];
 
-	for (var i = event.touches.length - 1; i >= 0; i--) {
-		touchedButtons.push(event.touches[i].target.id);
+
+
+function testForHit(loc)
+{
+	var left = $('#left');
+	
+	var ctrls = {
+		'left': $('#left'),
+		'right': $('#right'),
+		'up': $('#up'),
+		'down': $('#down'),
+		'bomb': $('#bomb')
 	};
+	
+	//padding
+	var x = loc.x - 20;
+	var y = loc.y - 20;
+	
+	for (var i in ctrls) {
+		var ele = ctrls[i];
+		var p = ele.position();
 
-	tellServerWhatsUp(touchedButtons);
+		if (x >= p.left && x < p.left + ele.width()
+			&& y >= p.top && y < p.top + ele.height())
+		{
+			return i;
+		}
+	}
+
+	return null;
 }
 
 function handleKey(event)
