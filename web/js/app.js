@@ -1,26 +1,22 @@
-// WHAT DO WE DO NOW?
-
 var Player = {
 	number: 0,
 	id: 0,
 	color: 'fuchsia'
 };
 
-var buttonsPressed = {
-	up: 0,
-	left: 0,
-	right: 0,
-	down: 0,
-	bomb: 0
-};
+var keysPressed = {};
 
 $(document).ready(function ()
 {
-	initWithServer();
-	//initWithoutServer(); // Remove when actually running game
+	// Disable scrolling
+	document.ontouchmove = function(event){
+	    event.preventDefault();
+	}
+
+	connectToServer();
 });
 
-function initWithServer()
+function connectToServer()
 {
 	// Request a number / color
 	$.ajax('/join', {
@@ -32,79 +28,126 @@ function initWithServer()
 			Player.id = data.id;
 			Player.color = data.color;
 
+			// Start polling for player updates
+			window.setTimeout(checkForNewColor, 250);
+
 			// Initiate party mode
 			startGame();
 		}
 	});
 }
 
-function initWithoutServer()
-{
-	Player.number = 1;
-	Player.id = 1;
-	Player.color = 'fuchsia';
-
-	$('.loading').hide();
-
-	startGame();
-}
-
 function startGame()
 {
 	// Set background color and shit
 	$('.control').css({ background: Player.color });
-	$('#bomb').text('Player ' + Player.number);
+	$('#bomb').text('Player ' + (Player.number + 1));
 
-	// Set up event handlers
+	// Set up event handlers for touch
 	$('.control').on('mouseup mousedown', function(event) {
 		event.preventDefault();
-		updateKeys(event);
+		handleClick(event);
 	});
+
+	controls = document.getElementsByClassName('control');
+
+	for (var i = controls.length - 1; i >= 0; i--) {
+		controls[i].addEventListener('touchstart', handleTouch, false);
+		controls[i].addEventListener('touchend', handleTouch, false);
+		controls[i].addEventListener('touchcancel', handleTouch, false);
+	};
+
+	// Also for keyboard
+	$(document).on('keydown keyup', function(event)
+	{
+		event.preventDefault();
+		handleKey(event);
+	});
+
+	$('.loading').hide();
 }
 
-function updateKeys(event)
+function handleTouch(event)
 {
-	// Check which button changed state, and what action occurred
+	console.log(event);
+	var touchedButtons = [];
+
+	for (var i = event.touches.length - 1; i >= 0; i--) {
+		touchedButtons.push(event.touches[i].target.id);
+	};
+
+	tellServerWhatsUp(touchedButtons);
+}
+
+function handleKey(event)
+{
+	if (event.keyCode == 87) changedButton = 'up';
+	else if (event.keyCode == 65) changedButton = 'left';
+	else if (event.keyCode == 68) changedButton = 'right';
+	else if (event.keyCode == 83) changedButton = 'down';
+	else if (event.keyCode == 32) changedButton = 'bomb';
+	else return;
+
+	newState = event.type;
+
+	if (newState == 'keydown') {
+		keysPressed[changedButton] = 1;
+	} else {
+		delete keysPressed[changedButton]
+	}
+
+	tellServerWhatsUp(Object.keys(keysPressed));
+}
+
+function handleClick(event)
+{
 	changedButton = event.target.id;
 	newState = event.type;
 
-	// Update the buttonsPressed object
 	if (newState == 'mousedown') {
-		buttonsPressed[changedButton] = 1;
+		keysPressed[changedButton] = 1;
 	} else {
-		buttonsPressed[changedButton] = 0;
+		delete keysPressed[changedButton]
 	}
 
-	updateServer();
+	tellServerWhatsUp(Object.keys(keysPressed));
 }
 
-function updateServer()
+function tellServerWhatsUp(buttons)
 {
-	var buttonsToSend = [];
-	var buttonKeys = Object.keys(buttonsPressed);
-
-	// Generate list of buttons to send
-	for (var i = buttonKeys.length - 1; i >= 0; i--) {
-		console.log(buttonsPressed);
-		if (buttonsPressed[buttonKeys[i]] == 1) {
-			buttonsToSend.push(buttonKeys[i]);
-		}
-	};
-
-	console.log(buttonsToSend);
+	console.log(buttons);
 
 	$.ajax('/update',
 	{
-		data:JSON.stringify({
+		data: JSON.stringify({
 			id: Player.id,
-			controls: buttonsToSend
+			controls: buttons
 		}),
-		type:'POST',
-		dataType:'json',
+		type: 'POST',
+		dataType: 'json',
 		success: function(data)
 		{
 			// SHIT SON
 			console.log('!!!!');
+		}
+	});
+}
+
+function checkForNewColor()
+{
+	$.ajax('/status',
+	{
+		data: Player.id,
+		type: 'POST',
+		dataType: 'json',
+		success: function(data)
+		{
+			// Set replacement color
+			Player.color = data.color;
+
+			$('.control').css({ background: Player.color });
+
+			window.setTimeout(checkForNewColor, 250);
 		}
 	});
 }

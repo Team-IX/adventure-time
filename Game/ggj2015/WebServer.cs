@@ -13,6 +13,8 @@ namespace ggj2015
 		private readonly HttpListener _listener = new HttpListener();
 		private readonly SharedControlsManager _sharedControlsManager;
 
+		private string _rootPath;
+
 		public WebServer(SharedControlsManager sharedControlsManager)
 		{
 			_sharedControlsManager = sharedControlsManager;
@@ -21,13 +23,22 @@ namespace ggj2015
 				throw new NotSupportedException(
 					"Needs Windows XP SP2, Server 2003 or later.");
 
-			_listener.Prefixes.Add("http://*:" + 12543 + "/");
+			const int port = 80;
+			_listener.Prefixes.Add("http://*:" + port + "/");
 
 			//netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
 
 			_listener.Start();
 
-			Process.Start("http://127.0.0.1:12543");
+			Process.Start("http://127.0.0.1:" + port);
+
+			_rootPath = "web";
+			for (var i = 0; i < 8; i++)
+			{
+				if (Directory.Exists(_rootPath))
+					break;
+				_rootPath = "../" + _rootPath;
+			}
 		}
 
 		public void Run()
@@ -99,7 +110,7 @@ namespace ggj2015
 			var fileName = request.Url.LocalPath.Substring(1);
 			if (fileName == "")
 				fileName = "index.html";
-			fileName = Path.Combine("../../../../../web/", fileName);
+			fileName = Path.Combine(_rootPath, fileName);
 			if (File.Exists(fileName))
 			{
 				if (fileName.EndsWith(".html") || fileName.EndsWith(".js") || fileName.EndsWith(".css"))

@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="273.95636"
+     inkscape:cy="398.24109"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1665"
+     inkscape:window-height="1208"
+     inkscape:window-x="97"
+     inkscape:window-y="78"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:0.97000001999999996;fill:none;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="rect2995"
+       width="149.50259"
+       height="302.03561"
+       x="19.1929"
+       y="340.20465"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\1.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <path
+       style="opacity:0.97000001999999996;fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       d="M 95.96875 350.3125 C 63.053132 350.3125 36.375 377.43274 36.375 410.90625 C 36.375 433.12075 48.129823 452.54081 65.65625 463.09375 L 65.65625 477.6875 L 32.40625 472.71875 L 28.90625 495.09375 L 65.65625 500.59375 L 65.65625 546.09375 L 34.34375 626.09375 L 53.15625 633.46875 L 79.375 566.46875 L 102.125 566.46875 L 124.1875 636.96875 L 143.46875 630.9375 L 118.1875 550.09375 L 118.1875 508.46875 L 153.46875 513.75 L 156.96875 491.375 L 118.1875 485.5625 L 118.1875 467.15625 C 140.09458 458.19638 155.5625 436.39008 155.5625 410.90625 C 155.5625 377.43274 128.88437 350.3125 95.96875 350.3125 z "
+       id="path2985"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\1.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <rect
+       y="340.20465"
+       x="185.86807"
+       height="302.03561"
+       width="149.50259"
+       id="rect2997"
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\2.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <path
+       style="opacity:0.97000001999999996;fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       d="M 262.625 350.3125 C 229.70938 350.3125 203.03125 377.43274 203.03125 410.90625 C 203.03125 426.59696 208.91156 440.89284 218.53125 451.65625 L 213.9375 448.53125 L 201.09375 467.1875 L 232.34375 488.40625 L 232.34375 546.09375 L 201.03125 626.09375 L 219.84375 633.46875 L 246.0625 566.46875 L 268.8125 566.46875 L 290.84375 636.96875 L 310.125 630.9375 L 284.875 550.125 L 284.875 524.09375 L 305.28125 537.9375 L 318.125 519.28125 L 284.875 496.6875 L 284.875 467.125 C 306.77126 458.15993 322.25 436.38215 322.25 410.90625 C 322.25 377.43274 295.54062 350.3125 262.625 350.3125 z "
+       id="path2999"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\2.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <rect
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="rect3009"
+       width="149.50259"
+       height="302.03561"
+       x="347.49249"
+       y="340.20465"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\3.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <path
+       style="opacity:0.97000001999999996;fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       d="M 424.25 350.3125 C 391.33438 350.3125 364.65625 377.43274 364.65625 410.90625 C 364.65625 433.12306 376.43931 452.54156 393.96875 463.09375 L 393.96875 485.21875 L 357.40625 489.78125 L 360.0625 512.28125 L 393.96875 508.0625 L 393.96875 546.09375 L 362.65625 626.09375 L 381.46875 633.46875 L 407.6875 566.46875 L 430.4375 566.46875 L 452.46875 636.96875 L 471.75 630.9375 L 446.5 550.125 L 446.5 501.53125 L 485.0625 496.71875 L 482.40625 474.21875 L 446.5 478.6875 L 446.5 467.125 C 468.39626 458.15993 483.875 436.38215 483.875 410.90625 C 483.875 377.43274 457.16562 350.3125 424.25 350.3125 z "
+       id="path3011"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\3.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <rect
+       y="340.20465"
+       x="527.29962"
+       height="302.03561"
+       width="149.50259"
+       id="rect3021"
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\4.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <path
+       style="opacity:0.97000001999999996;fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       d="M 604.0625 350.3125 C 571.14688 350.3125 544.46875 377.43274 544.46875 410.90625 C 544.46875 433.13618 556.23462 452.57707 573.78125 463.125 L 573.78125 492.34375 L 538.625 507.03125 L 547.21875 527.96875 L 573.78125 516.875 L 573.78125 546.09375 L 542.46875 626.09375 L 561.28125 633.46875 L 587.5 566.46875 L 610.21875 566.46875 L 632.28125 636.96875 L 651.5625 630.9375 L 626.28125 550.09375 L 626.28125 494.96875 L 663.4375 479.46875 L 654.84375 458.5 L 626.28125 470.4375 L 626.28125 467.15625 C 648.19732 458.20071 663.65625 436.39666 663.65625 410.90625 C 663.65625 377.43274 636.97812 350.3125 604.0625 350.3125 z "
+       id="path3023"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\4.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <rect
+       y="23.016752"
+       x="19.1929"
+       height="302.03561"
+       width="149.50259"
+       id="rect3081"
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0" />
+    <path
+       transform="translate(-129.29953,-305.06607)"
+       d="m 284.86302,398.79349 a 59.598999,60.609154 0 1 1 -119.198,0 59.598999,60.609154 0 1 1 119.198,0 z"
+       sodipodi:ry="60.609154"
+       sodipodi:rx="59.598999"
+       sodipodi:cy="398.79349"
+       sodipodi:cx="225.26402"
+       id="path3083"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       sodipodi:type="arc" />
+    <rect
+       y="133.12335"
+       x="65.65992"
+       height="116.16754"
+       width="52.527931"
+       id="rect3085"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0" />
+    <rect
+       transform="matrix(0.95444066,-0.29840077,0.29840077,0.95444066,0,0)"
+       y="244.27451"
+       x="23.097967"
+       height="97.984795"
+       width="20.203051"
+       id="rect3087"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.99999999, 2.99999999;stroke-dashoffset:0" />
+    <rect
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3.00000003, 3.00000003;stroke-dashoffset:0"
+       id="rect3089"
+       width="20.203051"
+       height="97.984795"
+       x="144.61603"
+       y="177.13074"
+       transform="matrix(0.93115928,0.36461267,-0.36461267,0.93115928,0,0)" />
+    <rect
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1.20044994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3.6013497, 3.6013497;stroke-dashoffset:0"
+       id="rect3091"
+       width="22.652477"
+       height="125.93546"
+       x="-171.67775"
+       y="56.028313"
+       transform="matrix(0.15434535,-0.98801696,0.98897044,0.148113,0,0)" />
+    <rect
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="rect3093"
+       width="149.50259"
+       height="302.03561"
+       x="185.86807"
+       y="23.016752" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="path3095"
+       sodipodi:cx="225.26402"
+       sodipodi:cy="398.79349"
+       sodipodi:rx="59.598999"
+       sodipodi:ry="60.609154"
+       d="m 284.86302,398.79349 a 59.598999,60.609154 0 1 1 -119.198,0 59.598999,60.609154 0 1 1 119.198,0 z"
+       transform="translate(37.37564,-305.06607)" />
+    <rect
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="rect3097"
+       width="52.527931"
+       height="116.16754"
+       x="232.33508"
+       y="133.12335" />
+    <rect
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.99999998, 2.99999998;stroke-dashoffset:0"
+       id="rect3099"
+       width="20.203051"
+       height="97.984795"
+       x="182.17952"
+       y="294.01053"
+       transform="matrix(0.95444066,-0.29840077,0.29840077,0.95444066,0,0)" />
+    <rect
+       transform="matrix(0.93115928,0.36461267,-0.36461267,0.93115928,0,0)"
+       y="116.35885"
+       x="299.81717"
+       height="97.984795"
+       width="20.203051"
+       id="rect3101"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3.00000004, 3.00000004;stroke-dashoffset:0" />
+    <rect
+       transform="matrix(0.56708556,-0.82365889,0.8272179,0.56188126,0,0)"
+       y="250.70612"
+       x="-11.092418"
+       height="125.93546"
+       width="22.652477"
+       id="rect3103"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1.20044994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3.60134969, 3.60134969;stroke-dashoffset:0" />
+    <rect
+       y="23.016752"
+       x="347.49249"
+       height="302.03561"
+       width="149.50259"
+       id="rect3105"
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0" />
+    <path
+       transform="translate(199.00005,-305.06607)"
+       d="m 284.86302,398.79349 a 59.598999,60.609154 0 1 1 -119.198,0 59.598999,60.609154 0 1 1 119.198,0 z"
+       sodipodi:ry="60.609154"
+       sodipodi:rx="59.598999"
+       sodipodi:cy="398.79349"
+       sodipodi:cx="225.26402"
+       id="path3107"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       sodipodi:type="arc" />
+    <rect
+       y="133.12335"
+       x="393.9595"
+       height="116.16754"
+       width="52.527931"
+       id="rect3109"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0" />
+    <rect
+       transform="matrix(0.95444066,-0.29840077,0.29840077,0.95444066,0,0)"
+       y="342.23935"
+       x="336.44043"
+       height="97.984795"
+       width="20.203051"
+       id="rect3111"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.99999997, 2.99999997;stroke-dashoffset:0" />
+    <rect
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3.00000005, 3.00000005;stroke-dashoffset:0"
+       id="rect3113"
+       width="20.203051"
+       height="97.984795"
+       x="450.31522"
+       y="57.428551"
+       transform="matrix(0.93115928,0.36461267,-0.36461267,0.93115928,0,0)" />
+    <rect
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1.20044994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3.60134968, 3.60134968;stroke-dashoffset:0"
+       id="rect3115"
+       width="22.652477"
+       height="125.93546"
+       x="-238.06761"
+       y="334.72372"
+       transform="matrix(-0.11725953,-0.99310131,0.99234226,-0.12351854,0,0)" />
+    <rect
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="rect3117"
+       width="149.50259"
+       height="302.03561"
+       x="527.29962"
+       y="23.016752" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="path3119"
+       sodipodi:cx="225.26402"
+       sodipodi:cy="398.79349"
+       sodipodi:rx="59.598999"
+       sodipodi:ry="60.609154"
+       d="m 284.86302,398.79349 a 59.598999,60.609154 0 1 1 -119.198,0 59.598999,60.609154 0 1 1 119.198,0 z"
+       transform="translate(378.8072,-305.06607)" />
+    <rect
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="rect3121"
+       width="52.527931"
+       height="116.16754"
+       x="573.76666"
+       y="133.12335" />
+    <rect
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.99999996, 2.99999996;stroke-dashoffset:0"
+       id="rect3123"
+       width="20.203051"
+       height="97.984795"
+       x="508.05569"
+       y="395.89395"
+       transform="matrix(0.95444066,-0.29840077,0.29840077,0.95444066,0,0)" />
+    <rect
+       transform="matrix(0.93115928,0.36461267,-0.36461267,0.93115928,0,0)"
+       y="-8.1314163"
+       x="617.74432"
+       height="97.984795"
+       width="20.203051"
+       id="rect3125"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3.00000006, 3.00000006;stroke-dashoffset:0" />
+    <rect
+       transform="matrix(-0.37941096,-0.92522826,0.92281774,-0.38523683,0,0)"
+       y="426.34476"
+       x="-405.34366"
+       height="125.93546"
+       width="22.652477"
+       id="rect3127"
+       style="opacity:0.97000002;fill:#705670;fill-opacity:1;stroke:#1311b6;stroke-width:1.20044994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3.60134968, 3.60134968;stroke-dashoffset:0" />
+    <rect
+       y="693.75806"
+       x="19.1929"
+       height="302.03561"
+       width="149.50259"
+       id="rect3901"
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\bg1.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <path
+       id="path3903"
+       d="m 95.96875,703.86589 c -32.915618,0 -59.59375,27.12024 -59.59375,60.59375 0,22.2145 11.754823,41.63456 29.28125,52.1875 l 0,14.59375 -33.25,-4.96875 -3.5,22.375 36.75,5.5 0,45.5 -31.3125,80 18.8125,7.375 26.21875,-67 22.75,0 22.0625,70.5 19.28125,-6.03125 -25.28125,-80.84375 0,-41.625 35.28125,5.28125 3.5,-22.375 -38.78125,-5.8125 0,-18.40625 c 21.90708,-8.95987 37.375,-30.76617 37.375,-56.25 0,-33.47351 -26.67813,-60.59375 -59.59375,-60.59375 z"
+       style="opacity:0.97000001999999996;fill:#ffffff;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\bg1.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <rect
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="rect3905"
+       width="149.50259"
+       height="302.03561"
+       x="185.86807"
+       y="693.75806"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\bg2.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <path
+       id="path3907"
+       d="m 262.625,703.86589 c -32.91562,0 -59.59375,27.12024 -59.59375,60.59375 0,15.69071 5.88031,29.98659 15.5,40.75 l -4.59375,-3.125 -12.84375,18.65625 31.25,21.21875 0,57.6875 -31.3125,80 18.8125,7.375 26.21875,-67 22.75,0 22.03125,70.5 19.28125,-6.03125 -25.25,-80.8125 0,-26.03125 20.40625,13.84375 12.84375,-18.65625 -33.25,-22.59375 0,-29.5625 c 21.89626,-8.96507 37.375,-30.74285 37.375,-56.21875 0,-33.47351 -26.70938,-60.59375 -59.625,-60.59375 z"
+       style="opacity:0.97000001999999996;fill:#ffffff;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\bg2.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <rect
+       y="693.75806"
+       x="347.49249"
+       height="302.03561"
+       width="149.50259"
+       id="rect3909"
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\bg3.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <path
+       id="path3911"
+       d="m 424.25,703.86589 c -32.91562,0 -59.59375,27.12024 -59.59375,60.59375 0,22.21681 11.78306,41.63531 29.3125,52.1875 l 0,22.125 -36.5625,4.5625 2.65625,22.5 33.90625,-4.21875 0,38.03125 -31.3125,80 18.8125,7.375 26.21875,-67 22.75,0 22.03125,70.5 19.28125,-6.03125 -25.25,-80.8125 0,-48.59375 38.5625,-4.8125 -2.65625,-22.5 -35.90625,4.46875 0,-11.5625 c 21.89626,-8.96507 37.375,-30.74285 37.375,-56.21875 0,-33.47351 -26.70938,-60.59375 -59.625,-60.59375 z"
+       style="opacity:0.97000001999999996;fill:#ffffff;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\bg3.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <rect
+       style="opacity:0.97000002;fill:none;stroke:#1311b6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       id="rect3913"
+       width="149.50259"
+       height="302.03561"
+       x="527.29962"
+       y="693.75806"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\bg4.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+    <path
+       id="path3915"
+       d="m 604.0625,703.86589 c -32.91562,0 -59.59375,27.12024 -59.59375,60.59375 0,22.22993 11.76587,41.67082 29.3125,52.21875 l 0,29.21875 -35.15625,14.6875 8.59375,20.9375 26.5625,-11.09375 0,29.21875 -31.3125,80 18.8125,7.375 26.21875,-67 22.71875,0 22.0625,70.5 19.28125,-6.03125 -25.28125,-80.84375 0,-55.125 37.15625,-15.5 -8.59375,-20.96875 -28.5625,11.9375 0,-3.28125 c 21.91607,-8.95554 37.375,-30.75959 37.375,-56.25 0,-33.47351 -26.67813,-60.59375 -59.59375,-60.59375 z"
+       style="opacity:0.97000001999999996;fill:#ffffff;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\danzel\Code\adventure-time\Game\ggj2015\Content\player\left\bg4.png"
+       inkscape:export-xdpi="180.20494"
+       inkscape:export-ydpi="180.20494" />
+  </g>
+</svg>

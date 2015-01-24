@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FarseerPhysics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
@@ -25,8 +26,6 @@ namespace ggj2015.GameObjects
 		public readonly TimeSpan PlacedTime;
 		public TimeSpan LifeTime { get; set; }
 		public int ExplosionSize { get; set; }
-
-		public Body Body { get; set; }
 
 		public bool HasExploded { get; private set; }
 
@@ -160,6 +159,12 @@ namespace ggj2015.GameObjects
 			Globals.World.RemoveBody(Body);
 			Player.PlacedBombs--;
 			Globals.Simulation.Explosions.Add(new Explosion(X, Y, minX, maxX, minY, maxY));
+		}
+
+		public void Render()
+		{
+			Globals.SpriteBatch.DrawTile(Resources.Objects.Bomb, ConvertUnits.ToDisplayUnits(Body.Position));
+			//Globals.SpriteBatch.Draw(Resources.Objects.Bomb, ConvertUnits.ToDisplayUnits(Body.Position), origin: Resources.Test.CenteredOrigin());
 		}
 	}
 }

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ggj2015.GameObjects
 {
@@ -26,7 +29,6 @@ namespace ggj2015.GameObjects
 		private readonly int _gridX;
 		private readonly int _gridY;
 		public PowerUpType Type;
-		public Body Body { get; set; }
 		public TimeSpan TimeCreated { get; set; }
 
 		private bool _alreadyCollected;
@@ -91,6 +93,31 @@ namespace ggj2015.GameObjects
 			Globals.World.RemoveBody(Body);
 
 			Globals.GameWorld.ObjectsInCells[_gridX, _gridY] = null;
+			Globals.Simulation.PowerUps.Remove(this);
+		}
+
+		public void Render()
+		{
+			Texture2D tex;
+			switch (Type)
+			{
+				case PowerUpType.BiggerExplosions:
+					tex = Resources.PowerUps.BiggerExplosions;
+					break;
+				case PowerUpType.EverybodySwap:
+					tex = Resources.PowerUps.EverybodySwap;
+					break;
+					case PowerUpType.MoreBombs:
+					tex = Resources.PowerUps.MoreBombs;
+					break;
+					case PowerUpType.MoreSpeed:
+					tex = Resources.PowerUps.MoreSpeed;
+					break;
+				default:
+					throw new Exception();
+			}
+			Globals.SpriteBatch.DrawTile(tex, ConvertUnits.ToDisplayUnits(Body.Position));
+			//Globals.SpriteBatch.Draw(tex, ConvertUnits.ToDisplayUnits(Body.Position), origin: Resources.Test.CenteredOrigin());
 		}
 	}
 }

@@ -12,10 +12,10 @@ namespace ggj2015.GameObjects
 {
 	class Explosion : GameObject
 	{
-		public Body Body { get; set; }
+		//from base public Body Body { get; set; }
 		public Body Body2 { get; set; }
 
-		private const float Padding = GameWorld.CellSize * 0.05f;
+		private const float Padding = GameWorld.CellSize * 0.2f;
 
 		public TimeSpan TimeToDie { get; set; }
 		public TimeSpan TimeCreated { get; set; }

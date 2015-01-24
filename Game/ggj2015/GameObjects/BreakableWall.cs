@@ -9,8 +9,6 @@ namespace ggj2015.GameObjects
 {
 	class BreakableWall : GameObject
 	{
-		public Body Body { get; set; }
-
 		public BreakableWall(Body body)
 		{
 			Body = body;

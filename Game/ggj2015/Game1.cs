@@ -21,7 +21,6 @@ namespace ggj2015
 	public class Game1 : Game
 	{
 		GraphicsDeviceManager _graphics;
-		SpriteBatch _spriteBatch;
 		private DebugViewXNA _debugView;
 
 		public Game1()
@@ -90,7 +89,7 @@ namespace ggj2015
 		protected override void LoadContent()
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
-			_spriteBatch = new SpriteBatch(GraphicsDevice);
+			Globals.SpriteBatch = new SpriteBatch(GraphicsDevice);
 
 			// TODO: use this.Content to load your game content here
 			Resources.Load(Content);
@@ -130,20 +129,17 @@ namespace ggj2015
 
 			// TODO: Add your drawing code here
 
-			_spriteBatch.Begin(transformMatrix: Matrix.CreateScale((float)GraphicsDevice.PresentationParameters.BackBufferWidth / Globals.RenderWidth, (float)GraphicsDevice.PresentationParameters.BackBufferHeight / Globals.RenderHeight, 1));
-
-			//_spriteBatch.Draw(Resources.Test, new Vector2(100, 100));
-			//_spriteBatch.Draw(Resources.Test, new Vector2(200, 200));
-
-			_spriteBatch.Draw(Resources.Test, ConvertUnits.ToDisplayUnits(Globals.Simulation.Players[0].Body.Position), origin: Resources.Test.CenteredOrigin(), color: Color.FromNonPremultiplied(255,255,255, 60));
-
-			//_spriteBatch.Draw(Resources.Test, ConvertUnits.ToDisplayUnits(_rect.Position), origin: Resources.Test.CenteredOrigin(), rotation: -_rect.Rotation);
-
-			_spriteBatch.End();
-
-			//var projection = Matrix.CreateOrthographicOffCenter(0, ConvertUnits.ToSimUnits(GraphicsDevice.PresentationParameters.BackBufferWidth), 0, ConvertUnits.ToSimUnits(GraphicsDevice.PresentationParameters.BackBufferHeight), -1, 1);
 			var projection = Matrix.CreateOrthographicOffCenter(ConvertUnits.ToSimUnits(0 - ConvertUnits.LeftOffset), ConvertUnits.ToSimUnits(Globals.RenderWidth - ConvertUnits.LeftOffset), ConvertUnits.ToSimUnits(Globals.RenderHeight - ConvertUnits.TopOffset), ConvertUnits.ToSimUnits(0 - ConvertUnits.TopOffset), -1, 1);
-			_debugView.RenderDebugData(projection, Matrix.Identity);
+
+			Globals.SpriteBatch.Begin(samplerState: SamplerState.AnisotropicWrap, transformMatrix: Matrix.CreateTranslation(ConvertUnits.LeftOffset - 70, ConvertUnits.TopOffset - 60, 0));
+			Globals.SpriteBatch.Draw(Resources.Objects.BackgroundTile, new Rectangle(0, 0, (int)((GameWorld.Width + 1) * Globals.TilePx), (int)((GameWorld.Height + 1) * Globals.TilePx)), new Rectangle(0, 0, (int)(Resources.Objects.BackgroundTile.Width * Globals.TilePx * GameWorld.CellSize * 0.5f), (int)(Resources.Objects.BackgroundTile.Height * Globals.TilePx* GameWorld.CellSize * 0.5f)), Color.White);
+			Globals.SpriteBatch.End();
+			
+			Globals.SpriteBatch.Begin(transformMatrix: Matrix.CreateScale((float)GraphicsDevice.PresentationParameters.BackBufferWidth / Globals.RenderWidth, (float)GraphicsDevice.PresentationParameters.BackBufferHeight / Globals.RenderHeight, 1));
+			Globals.Simulation.Render();
+			Globals.SpriteBatch.End();
+
+			//_debugView.RenderDebugData(projection, Matrix.Identity);
 
 			base.Draw(gameTime);
 		}

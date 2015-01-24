@@ -42,26 +42,38 @@ namespace ggj2015
 
 		public void Update(ControlPacket packet)
 		{
-			_idLookup[packet.Id].ConsumePacket(packet);
+			lock (this)
+			{
+				_idLookup[packet.Id].ConsumePacket(packet);
+			}
 		}
 
 		public void EverybodySwap()
 		{
 			if (!Globals.Simulation.Players.All(x => x.IsAlive))
 				return;
-			foreach (var pp in _playerPersons)
+
+			lock (this)
 			{
-				if (!pp.Player.IsAlive)
-					continue;
-
-				//Get a random player that is alive
-				do
+				foreach (var p in Globals.Simulation.Players)
 				{
-					pp.Player = Globals.Simulation.Players[Globals.Random.Next(0, Player.Count)];
-				} while (!pp.Player.IsAlive);
+					p.ResetVotes();
+				}
 
-				_idLookup[pp.Id] = pp.Player;
-				pp.RaiseColorChanged();
+				foreach (var pp in _playerPersons)
+				{
+					if (!pp.Player.IsAlive)
+						continue;
+
+					//Get a random player that is alive
+					do
+					{
+						pp.Player = Globals.Simulation.Players[Globals.Random.Next(0, Player.Count)];
+					} while (!pp.Player.IsAlive);
+
+					_idLookup[pp.Id] = pp.Player;
+					pp.RaiseColorChanged();
+				}
 			}
 		}
 	}
@@ -73,7 +85,7 @@ namespace ggj2015
 
 		public string Color
 		{
-			get { return Player.Color; }
+			get { return Player.ColorStr; }
 		}
 
 		public PlayerPerson(Player player, int id)

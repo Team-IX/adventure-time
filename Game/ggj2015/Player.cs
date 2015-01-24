@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using FarseerPhysics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ggj2015
 {
@@ -16,7 +18,8 @@ namespace ggj2015
 		public float PlayerMovementForce = 0.045f;
 		public const float PlayerMovementForceIncrement = 0.01f;
 
-		public string Color { get; set; }
+		public Color Color;
+		public string ColorStr { get; set; }
 		public Body Body { get; set; }
 
 		public readonly int PlayerNumber;
@@ -35,9 +38,15 @@ namespace ggj2015
 
 		private readonly Dictionary<int, ControlPacket> _votes = new Dictionary<int, ControlPacket>(); 
 
-		public Player(int playerNumber, string color, Vector2 startPos)
+		public Player(int playerNumber, string colorStr, Vector2 startPos)
 		{
-			Color = color;
+			ColorStr = colorStr;
+			Color = new Color(
+				Convert.ToInt32(colorStr.Substring(1, 2), 16),
+				Convert.ToInt32(colorStr.Substring(3, 2), 16),
+				Convert.ToInt32(colorStr.Substring(5, 2), 16),
+				255);
+
 			PlayerNumber = playerNumber;
 
 			BombLifeTime = TimeSpan.FromSeconds(3);
@@ -152,6 +161,56 @@ namespace ggj2015
 			IsAlive = false;
 			//todo
 			Body.BodyType = BodyType.Static;
+		}
+
+		public void ResetVotes()
+		{
+			_votes.Clear();
+		}
+
+
+		private float _spriteIndex;
+
+		public void Render()
+		{
+			Vector2 offset = new Vector2(0, 34);
+
+			//Direction
+
+			var vel = Body.LinearVelocity;
+			const float req = 0.01f;
+
+			Texture2D back, fore;
+
+			if (IsAlive)
+			{
+				var sprites = Resources.Player.Down;
+
+				if (vel.X > req)
+					sprites = Resources.Player.Right;
+				else if (vel.X < -req)
+					sprites = Resources.Player.Left;
+				else if (vel.Y > req)
+					sprites = Resources.Player.Down;
+				else if (vel.Y < -req)
+					sprites = Resources.Player.Up;
+
+				if (vel.Length() < req)
+					_spriteIndex = 0;
+				else
+					_spriteIndex = (_spriteIndex + vel.Length() * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * 10) % sprites.Back.Length;
+
+				back = sprites.Back[(int)_spriteIndex];
+				fore = sprites.Fore[(int)_spriteIndex];
+			}
+			else
+			{
+				back = Resources.Player.BackDead;
+				fore = Resources.Player.ForeDead;
+			}
+
+			Globals.SpriteBatch.DrawTile(back, ConvertUnits.ToDisplayUnits(Body.Position) - offset, Color);
+			Globals.SpriteBatch.DrawTile(fore, ConvertUnits.ToDisplayUnits(Body.Position) - offset);
 		}
 	}
 }

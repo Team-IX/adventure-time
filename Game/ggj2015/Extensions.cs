@@ -14,5 +14,10 @@ namespace ggj2015
 		{
 			return Vector2.Transform(vector, Matrix.CreateRotationZ(angleRadian));
 		}
+
+		public static void DrawTile(this SpriteBatch batch, Texture2D tex, Vector2 pos, Color? color = null)
+		{
+			batch.Draw(tex, pos, scale: new Vector2(Globals.TilePx / tex.Width), origin: tex.CenteredOrigin(), color: color);
+		}
 	}
 }

@@ -15,8 +15,8 @@ namespace FarseerPhysics
         private static float _displayUnitsToSimUnitsRatio = 100f;
         private static float _simUnitsToDisplayUnitsRatio = 1 / _displayUnitsToSimUnitsRatio;
 
-	    public const float LeftOffset = 60;
-	    public const float TopOffset = 60;
+	    public const float LeftOffset = 240;
+	    public const float TopOffset = 120;
         public static void SetDisplayUnitToSimUnitRatio(float displayUnitsPerSimUnit)
         {
             _displayUnitsToSimUnitsRatio = displayUnitsPerSimUnit;

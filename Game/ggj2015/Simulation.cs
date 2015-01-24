@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using FarseerPhysics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics;
@@ -67,8 +68,11 @@ namespace ggj2015
 		{
 			for (var i = 0; i < Player.Count; i++)
 			{
-				Players[i].ApplyMovementForce();
-				Players[i].BombUpdate();
+				if (Players[i].IsAlive)
+				{
+					Players[i].ApplyMovementForce();
+					Players[i].BombUpdate();
+				}
 			}
 			foreach (var bomb in Bombs.ToArray())
 			{
@@ -122,6 +126,54 @@ namespace ggj2015
 		{
 			foreach (var bomb in Bombs)
 				bomb.PostPhysicsUpdate();
+		}
+
+		public void Render()
+		{
+			//Walls
+			for (var y = -1; y < GameWorld.Height + 1; y++)
+			{
+				for (var x = -1; x < GameWorld.Width + 1; x++)
+				{
+					if (x == -1 || y == -1 || x == GameWorld.Width || y == GameWorld.Height)
+						Globals.SpriteBatch.DrawTile(Resources.Objects.Wall, ConvertUnits.ToDisplayUnits(new Vector2(x, y) * GameWorld.CellSize));
+				}
+			}
+
+
+			//Other things
+			for (var y = 0; y < GameWorld.Height; y++)
+			{
+				for (var x = 0; x < GameWorld.Width; x++)
+				{
+					var obj = Globals.GameWorld.ObjectsInCells[x, y];
+
+					if (obj is UnbreakableWall)
+					{
+						Globals.SpriteBatch.DrawTile(Resources.Objects.Unbreakable, ConvertUnits.ToDisplayUnits(obj.Body.Position));
+					}
+					else if (obj is BreakableWall)
+					{
+						Globals.SpriteBatch.DrawTile(Resources.Objects.Breakable, ConvertUnits.ToDisplayUnits(obj.Body.Position));
+					}
+				}
+			}
+
+			foreach (var bomb in Bombs)
+			{
+				bomb.Render();
+			}
+			foreach (var powerUp in PowerUps)
+			{
+				powerUp.Render();
+			}
+			foreach (var explosion in Explosions)
+			{
+			}
+			foreach (var player in Players)
+			{
+				player.Render();
+			}
 		}
 	}
 }

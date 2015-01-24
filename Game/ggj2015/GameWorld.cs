@@ -144,12 +144,9 @@ namespace ggj2015
 				new Vector2(x * CellSize, y * CellSize));
 			body.Friction = 0;
 
-			ObjectsInCells[x, y] = UnbreakableWall;
+			ObjectsInCells[x, y] = new UnbreakableWall(body);
 			//BodyFactory.CreateRectangle(Globals.World, CellSize, CellSize, 0, new Vector2(x * CellSize, y * CellSize));
 		}
-
-		public readonly UnbreakableWall UnbreakableWall = new UnbreakableWall();
-
 
 		public void DestroyMaybe(int x, int y)
 		{
@@ -158,7 +155,7 @@ namespace ggj2015
 
 			var o = ObjectsInCells[x, y];
 
-			if (o == null || o == UnbreakableWall)
+			if (o == null || o is UnbreakableWall)
 				return;
 
 			if (o is BreakableWall)
