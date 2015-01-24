@@ -27,6 +27,10 @@ namespace ggj2015
 
 		public void InitialPopulate()
 		{
+			Bombs.Clear();
+			Explosions.Clear();
+			PowerUps.Clear();
+
 			var playerCellStarts = new[]
 			{
 				new Vector2(0, 0),
@@ -175,6 +179,15 @@ namespace ggj2015
 			{
 				player.Render();
 			}
+		}
+
+		public void Reset()
+		{
+			Globals.World.Clear();
+			Globals.GameWorld.InitialPopulate();
+			Globals.Simulation.InitialPopulate();
+			Globals.Simulation.CreatePlayerPersonForGamepads();
+			Globals.Controls.Reset();
 		}
 	}
 }

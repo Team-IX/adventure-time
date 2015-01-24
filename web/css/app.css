@@ -7,9 +7,10 @@
     user-select: none;
 }
 
-html, body {
+body {
 	margin: 0;
 	font-family: 'Helvetica Neue';
+	background: #eee;
 }
 
 .loading {
@@ -42,38 +43,50 @@ html, body {
 #bomb {
 	width: 40%;
 	right: 0;
-	background: black;
+	background-color: grey;
+	background-position: middle center;
 }
 
 .control {
 	text-align: center;
 	line-height: 100%;
+	background-position: middle center;
 }
 
 .control:not(#bomb) {
 	position: absolute;
-	background: black;
-	width: 30%;
-	height: 30%;
-	line-height: 30%;
+	background: grey;
+	width: 33.3333%;
+	height: 33.3333%;
+}
+
+.control span {
+	display: block;
+	width: 100%;
 }
 
 #up {
 	top: 0;
-	left: 35%;
+	left: 33.3333%;
+	background-image: url('/img/up.png');
 }
 
 #left {
 	left: 0;
-	top: 35%;
+	top: 33.3333%;
+	background-image: url('/img/left.png');
 }
 
 #right {
 	right: 0;
-	top: 35%;
+	top: 33.3333%;
+	background-image: url('/img/right.png');
 }
 
 #down {
 	bottom: 0;
-	left: 35%;
+	left: 33.3333%;
+	background-image: url('/img/down.png');
 }
+
+#bomb

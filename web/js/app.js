@@ -9,7 +9,7 @@ var keysPressed = {};
 $(document).ready(function ()
 {
 	// Disable scrolling
-	document.ontouchmove = function(event){
+	document.ontouchmove = function(event) {
 	    event.preventDefault();
 	}
 
@@ -40,7 +40,7 @@ function connectToServer()
 function startGame()
 {
 	// Set background color and shit
-	$('.control').css({ background: Player.color });
+	$('.control').css('background-color', Player.color);
 	$('#bomb').text('Player ' + (Player.number + 1));
 
 	// Set up event handlers for touch
@@ -158,7 +158,7 @@ function checkForNewColor()
 			// Set replacement color
 			Player.color = data.color;
 
-			$('.control').css({ background: Player.color });
+			$('.control').css('background-color', Player.color);
 		},
 		complete: function(data, status)
 		{

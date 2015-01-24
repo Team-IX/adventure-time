@@ -7,11 +7,10 @@ namespace ggj2015
 {
 	public class SharedControlsManager
 	{
-		private readonly Dictionary<int, Player> _idLookup = new Dictionary<int, Player>();
+		private readonly Dictionary<string, Player> _idLookup = new Dictionary<string, Player>();
 		private readonly List<PlayerPerson> _playerPersons = new List<PlayerPerson>();
 
 		private readonly ManualResetEventSlim _longPollReset = new ManualResetEventSlim(false);
-		private int _personIdCounter = 0;
 
 		public SharedControlsManager()
 		{
@@ -34,9 +33,9 @@ namespace ggj2015
 				}
 
 				p.PersonCount++;
-				_personIdCounter++;
-				_idLookup[_personIdCounter] = p;
-				var pp = new PlayerPerson(p, _personIdCounter);
+				var id = Guid.NewGuid().ToString();
+				_idLookup[id] = p;
+				var pp = new PlayerPerson(p, id);
 				_playerPersons.Add(pp);
 				return pp;
 			}
@@ -89,12 +88,17 @@ namespace ggj2015
 
 			return new { color = pp.Color };
 		}
+
+		public void Reset()
+		{
+			_playerPersons.Clear();
+		}
 	}
 
 	public class PlayerPerson
 	{
 		public Player Player { get; set; }
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		public readonly ManualResetEventSlim ResetEvent = new ManualResetEventSlim(false);
 
@@ -103,7 +107,7 @@ namespace ggj2015
 			get { return Player.ColorStr; }
 		}
 
-		public PlayerPerson(Player player, int id)
+		public PlayerPerson(Player player, string id)
 		{
 			Player = player;
 			Id = id;

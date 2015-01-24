@@ -20,7 +20,7 @@ namespace ggj2015
 
 	public class BasePacket
 	{
-		public int Id;
+		public string Id;
 	}
 
 	public class ControlPacket : BasePacket
@@ -31,7 +31,7 @@ namespace ggj2015
 		{
 		}
 
-		public ControlPacket(int id, params Control[] controls)
+		public ControlPacket(string id, params Control[] controls)
 		{
 			Id = id;
 			Controls = controls;

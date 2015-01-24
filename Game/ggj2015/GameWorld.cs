@@ -19,8 +19,6 @@ namespace ggj2015
 
 	class GameWorld
 	{
-		public Tile[,] Tiles;
-
 		public GameObject[,] ObjectsInCells;
 
 		public const int Width = 17;
@@ -30,39 +28,8 @@ namespace ggj2015
 
 		public GameWorld()
 		{
-			Tiles = new Tile[Width, Height];
-			ObjectsInCells = new GameObject[Width, Height];
-			for (var x = 1; x < Width; x += 2)
-			{
-				for (var y = 1; y < Height; y += 2)
-				{
-					Tiles[x, y] = Tile.UnbreakableWall;
-				}
-			}
-
-			//Randomly place BreakableWall
-
-
-			for (var i = 0; i < BreakableWallCount; i++)
-			{
-				var x = Globals.Random.Next(0, Width);
-				var y = Globals.Random.Next(0, Height);
-
-				if ((x <= 1 && y <= 1) ||
-					(x <= 1 && y >= Height - 2) ||
-					(x >= Width - 2 && y <= 1) ||
-					(x >= Width - 2 && y >= Height - 2) ||
-					Tiles[x, y] != Tile.Empty)
-				{
-					i--;
-					continue;
-				}
-
-				Tiles[x, y] = Tile.BreakableWall;
-			}
 		}
-
-
+		
 		/*
 			for (var y = 0; y < GameWorld.Height; y++)
 			{
@@ -94,24 +61,33 @@ namespace ggj2015
 
 		public void InitialPopulate()
 		{
-			for (var y = 0; y < Height; y++)
+			ObjectsInCells = new GameObject[Width, Height];
+
+			for (var x = 1; x < Width; x += 2)
 			{
-				for (var x = 0; x < Width; x++)
+				for (var y = 1; y < Height; y += 2)
 				{
-					switch (Tiles[x, y])
-					{
-						case Tile.BreakableWall:
-							CreateBreakableWall(x, y);
-							break;
-						case Tile.Empty:
-							break;
-						case Tile.UnbreakableWall:
-							CreateUnbreakableWall(x, y);
-							break;
-						default:
-							throw new Exception();
-					}
+					CreateUnbreakableWall(x, y);
 				}
+			}
+
+			//Randomly place BreakableWall
+			for (var i = 0; i < BreakableWallCount; i++)
+			{
+				var x = Globals.Random.Next(0, Width);
+				var y = Globals.Random.Next(0, Height);
+
+				if ((x <= 1 && y <= 1) ||
+					(x <= 1 && y >= Height - 2) ||
+					(x >= Width - 2 && y <= 1) ||
+					(x >= Width - 2 && y >= Height - 2) ||
+					ObjectsInCells[x, y] != null)
+				{
+					i--;
+					continue;
+				}
+
+				CreateBreakableWall(x, y);
 			}
 
 			//Outside walls

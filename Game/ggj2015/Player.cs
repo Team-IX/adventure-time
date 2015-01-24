@@ -38,7 +38,7 @@ namespace ggj2015
 		public int BombExplosionSize = 1;
 
 
-		private readonly Dictionary<int, ControlPacket> _votes = new Dictionary<int, ControlPacket>(); 
+		private readonly Dictionary<string, ControlPacket> _votes = new Dictionary<string, ControlPacket>(); 
 
 		public Player(int playerNumber, string colorStr, Vector2 startPos)
 		{

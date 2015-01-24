@@ -65,11 +65,20 @@ namespace ggj2015
 							else
 								buf = (byte[])res;
 
-							ctx.Response.ContentLength64 = buf.Length;
-							ctx.Response.OutputStream.Write(buf, 0, buf.Length);
-							
-							// always close the stream
-							ctx.Response.OutputStream.Close();
+							try
+							{
+								if (ctx.Request.Url.LocalPath.ToLower().EndsWith(".css"))
+									ctx.Response.ContentType = "text/css";
+
+								ctx.Response.ContentLength64 = buf.Length;
+								ctx.Response.OutputStream.Write(buf, 0, buf.Length);
+
+								// always close the stream
+								ctx.Response.OutputStream.Close();
+							}
+							catch
+							{
+							}
 						}, _listener.GetContext());
 					}
 				}
@@ -104,6 +113,7 @@ namespace ggj2015
 				}
 				catch (Exception ex)
 				{
+					return "{ error: 'LOL' }";
 					//Console.WriteLine("Failed to get update: " + ex);
 				}
 			}
@@ -120,6 +130,7 @@ namespace ggj2015
 				}
 				catch (Exception ex)
 				{
+					return "{ error: 'LOL' }";
 					//Console.WriteLine("Failed to get update: " + ex);
 				}
 			}

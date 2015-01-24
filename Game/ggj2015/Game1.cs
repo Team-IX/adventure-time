@@ -75,9 +75,7 @@ namespace ggj2015
 			_debugView.Flags = DebugViewFlags.Shape;
 			//_debugView.Flags = (DebugViewFlags)0xff;
 
-			Globals.GameWorld.InitialPopulate();
-			Globals.Simulation.InitialPopulate();
-			Globals.Simulation.CreatePlayerPersonForGamepads();
+			Globals.Simulation.Reset();
 
 			Globals.WebServer.Run();
 		}
@@ -110,6 +108,12 @@ namespace ggj2015
 			var gamePadState = Globals.Input.GamePads[0].GetState();
 			if (gamePadState.Buttons.Back == ButtonState.Pressed || states.Any(s => s.IsKeyDown(Keys.Escape)))
 				Exit();
+
+			if (states.Any(s => s.IsKeyDown(Keys.Space)))
+			{
+				Globals.Simulation.Reset();
+			}
+
 
 			Globals.Simulation.UpdateControls();
 			Globals.Simulation.Update();
