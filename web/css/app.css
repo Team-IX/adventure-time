@@ -3,43 +3,46 @@ html, body {
 }
 
 .movement,
-.bomb {
+#bomb {
 	position: absolute;
 	width: 50%;
 	height: 100%;
 }
 
-.bomb {
+#bomb {
 	right: 0;
 	background: black;
 }
 
-.up,
-.left,
-.right,
-.down {
+.control {
+	text-align: center;
+	line-height: 100%;
+}
+
+.control:not(#bomb) {
 	position: absolute;
 	background: black;
 	width: 30%;
 	height: 30%;
+	line-height: 30%;
 }
 
-.up {
+#up {
 	top: 0;
 	left: 35%;
 }
 
-.left {
+#left {
 	left: 0;
 	top: 35%;
 }
 
-.right {
+#right {
 	right: 0;
 	top: 35%;
 }
 
-.down {
+#down {
 	bottom: 0;
 	left: 35%;
 }
