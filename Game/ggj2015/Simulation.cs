@@ -15,11 +15,14 @@ namespace ggj2015
 {
 	class Simulation
 	{
+		private const int GamePadCount = 4;
+
 		public Player[] Players;
 
 		public readonly List<Bomb> Bombs = new List<Bomb>();
 		public readonly List<Explosion> Explosions = new List<Explosion>();
 		public readonly List<PowerUp> PowerUps = new List<PowerUp>();
+		private readonly PlayerPerson[] _gamePadPlayerPerson = new PlayerPerson[GamePadCount];
 
 		public void InitialPopulate()
 		{
@@ -51,8 +54,22 @@ namespace ggj2015
 			}
 		}
 
+		public void CreatePlayerPersonForGamepads()
+		{
+			for (var i = 0; i < GamePadCount; i++)
+			{
+				var pp = Globals.Controls.Join();
+				_gamePadPlayerPerson[i] = pp;
+			}
+		}
+
 		public void Update()
 		{
+			for (var i = 0; i < Player.Count; i++)
+			{
+				Players[i].ApplyMovementForce();
+				Players[i].BombUpdate();
+			}
 			foreach (var bomb in Bombs.ToArray())
 			{
 				bomb.ExplodeMaybe();
@@ -69,31 +86,27 @@ namespace ggj2015
 			Bombs.RemoveAll(x => x.HasExploded);
 		}
 
-
-		public void UpdateControls(GameTime gameTime)
+		public void UpdateControls()
 		{
-			for (var i = 0; i < Player.Count; i++)
+			for (var i = 0; i < GamePadCount; i++)
 			{
-				var gps1 = Globals.Input.GamePads[i].GetState();
+				var gps = Globals.Input.GamePads[i].GetState();
+				if (!Globals.Input.GamePads[i].IsAttached)
+					continue;
 
 				List<Control> controls = new List<Control>();
-				if (gps1.DPad.Down == ButtonState.Pressed)
+				if (gps.DPad.Down == ButtonState.Pressed)
 					controls.Add(Control.Down);
-				if (gps1.DPad.Left == ButtonState.Pressed)
+				if (gps.DPad.Left == ButtonState.Pressed)
 					controls.Add(Control.Left);
-				if (gps1.DPad.Up == ButtonState.Pressed)
+				if (gps.DPad.Up == ButtonState.Pressed)
 					controls.Add(Control.Up);
-				if (gps1.DPad.Right == ButtonState.Pressed)
+				if (gps.DPad.Right == ButtonState.Pressed)
 					controls.Add(Control.Right);
-				if (gps1.IsButtonDown(Buttons.A))
+				if (gps.IsButtonDown(Buttons.A))
 					controls.Add(Control.Bomb);
 
-				//Local inputs get negative indexes cause easy
-				Players[i].ConsumePacket(new ControlPacket(-i, controls.ToArray()));
-
-
-				Players[i].ApplyMovementForce();
-				Players[i].BombUpdate(gameTime);
+				Globals.Controls.Update(new ControlPacket(_gamePadPlayerPerson[i].Id, controls.ToArray()));
 			}
 		}
 

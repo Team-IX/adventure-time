@@ -15,6 +15,7 @@ namespace ggj2015.GameObjects
 		MoreBombs,
 		BiggerExplosions,
 		MoreSpeed,
+		EverybodySwap,
 
 
 		Count
@@ -64,8 +65,11 @@ namespace ggj2015.GameObjects
 					case PowerUpType.MoreBombs:
 						p.MaxBombs++;
 						break;
-						case PowerUpType.MoreSpeed:
+					case PowerUpType.MoreSpeed:
 						p.PlayerMovementForce += Player.PlayerMovementForceIncrement;
+						break;
+					case PowerUpType.EverybodySwap:
+						Globals.Controls.EverybodySwap();
 						break;
 					default:
 						throw new Exception();
@@ -83,7 +87,7 @@ namespace ggj2015.GameObjects
 				return;
 
 			_alreadyCollected = true;
-			
+
 			Globals.World.RemoveBody(Body);
 
 			Globals.GameWorld.ObjectsInCells[_gridX, _gridY] = null;

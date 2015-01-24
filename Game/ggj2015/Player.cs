@@ -28,6 +28,8 @@ namespace ggj2015
 		public int PlacedBombs = 0;
 
 		public TimeSpan BombLifeTime { get; set; }
+		public bool IsAlive = true;
+
 		public int BombExplosionSize = 1;
 
 
@@ -130,7 +132,7 @@ namespace ggj2015
 			}
 		}
 
-		public void BombUpdate(GameTime gameTime)
+		public void BombUpdate()
 		{
 			if (!ResolveBombVote())
 				return;
@@ -147,6 +149,7 @@ namespace ggj2015
 
 		public void Die()
 		{
+			IsAlive = false;
 			//todo
 			Body.BodyType = BodyType.Static;
 		}
