@@ -100,6 +100,23 @@ namespace ggj2015
 					Console.WriteLine(json);
 					var packet = JsonConvert.DeserializeObject<ControlPacket>(json);
 					_sharedControlsManager.Update(packet);
+					return DateTime.UtcNow.Ticks.ToString();
+				}
+				catch (Exception ex)
+				{
+					//Console.WriteLine("Failed to get update: " + ex);
+				}
+			}
+
+			if (request.Url.LocalPath.StartsWith("/status"))
+			{
+				try
+				{
+					var json = new StreamReader(request.InputStream).ReadToEnd();
+					Console.WriteLine(json);
+					var packet = JsonConvert.DeserializeObject<BasePacket>(json);
+					return JsonConvert.SerializeObject(_sharedControlsManager.StatusPoll(packet));
+
 				}
 				catch (Exception ex)
 				{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace ggj2015
 {
@@ -9,6 +10,7 @@ namespace ggj2015
 		private readonly Dictionary<int, Player> _idLookup = new Dictionary<int, Player>();
 		private readonly List<PlayerPerson> _playerPersons = new List<PlayerPerson>();
 
+		private readonly ManualResetEventSlim _longPollReset = new ManualResetEventSlim(false);
 		private int _personIdCounter = 0;
 
 		public SharedControlsManager()
@@ -75,6 +77,17 @@ namespace ggj2015
 					pp.RaiseColorChanged();
 				}
 			}
+
+			_longPollReset.Set();
+		}
+
+		public object StatusPoll(BasePacket packet)
+		{
+			var pp = _playerPersons.Single(x => x.Id == packet.Id);
+			pp.ResetEvent.Wait(TimeSpan.FromSeconds(10));
+			pp.ResetEvent.Reset();
+
+			return new { color = pp.Color };
 		}
 	}
 
@@ -82,6 +95,8 @@ namespace ggj2015
 	{
 		public Player Player { get; set; }
 		public int Id { get; set; }
+
+		public readonly ManualResetEventSlim ResetEvent = new ManualResetEventSlim(false);
 
 		public string Color
 		{
@@ -96,10 +111,7 @@ namespace ggj2015
 
 		public void RaiseColorChanged()
 		{
-			if (ColorChanged != null)
-				ColorChanged();
+			ResetEvent.Set();
 		}
-
-		public event Action ColorChanged;
 	}
 }

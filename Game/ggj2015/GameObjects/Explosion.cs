@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ggj2015.GameObjects
 {
 	class Explosion : GameObject
 	{
+		private readonly int _centerX;
+		private readonly int _centerY;
+		private readonly int _minX;
+		private readonly int _maxX;
+		private readonly int _minY;
+		private readonly int _maxY;
+
 		//from base public Body Body { get; set; }
 		public Body Body2 { get; set; }
 
@@ -23,6 +32,14 @@ namespace ggj2015.GameObjects
 
 		public Explosion(int centerX, int centerY, int minX, int maxX, int minY, int maxY)
 		{
+			_centerX = centerX;
+			_centerY = centerY;
+			_minX = minX;
+			_maxX = maxX;
+			_minY = minY;
+			_maxY = maxY;
+
+
 			TimeCreated = Globals.GameTime.TotalGameTime;
 			TimeToDie = Globals.GameTime.TotalGameTime + TimeSpan.FromSeconds(0.3f);
 
@@ -71,6 +88,45 @@ namespace ggj2015.GameObjects
 			Globals.World.RemoveBody(Body2);
 
 			return true;
+		}
+
+		public void Render()
+		{
+			Draw(Resources.Explosion.Mid, _centerX, _centerY);
+
+			//Left-Right Left
+			for (var x = _minX + 1; x < _centerX; x++)
+				Draw(Resources.Explosion.LeftRight, x, _centerY);
+			//Left-Right Right
+			for (var x = _centerX + 1; x < _maxX; x++)
+				Draw(Resources.Explosion.LeftRight, x, _centerY);
+			//Left cap
+			if (_minX < _centerX)
+				Draw(Resources.Explosion.Left, _minX, _centerY);
+			//Left cap
+			if (_maxX > _centerX)
+				Draw(Resources.Explosion.Right, _maxX, _centerY);
+
+			//UP-Down up
+			for (var y = _minY + 1; y < _centerY; y++)
+				Draw(Resources.Explosion.UpDown, _centerX, y);
+			//updown down
+			for (var y = _centerY + 1; y < _maxY; y++)
+				Draw(Resources.Explosion.UpDown, _centerX, y);
+			//up cap
+			if (_minY < _centerY)
+				Draw(Resources.Explosion.Up, _centerX, _minY);
+			//down cap
+			if (_maxY > _centerY)
+				Draw(Resources.Explosion.Down, _centerX, _maxY);
+
+			
+			//bafasdasdewatwet
+		}
+
+		private void Draw(Texture2D texture2D, int x, int y)
+		{
+			Globals.SpriteBatch.DrawTileCell(texture2D, x, y);
 		}
 	}
 }

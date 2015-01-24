@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Threading;
 using FarseerPhysics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Dynamics;
@@ -31,6 +32,7 @@ namespace ggj2015
 		public int PlacedBombs = 0;
 
 		public TimeSpan BombLifeTime { get; set; }
+
 		public bool IsAlive = true;
 
 		public int BombExplosionSize = 1;

@@ -27,6 +27,11 @@ namespace ggj2015
 			public static Texture2D BackDead, ForeDead;
 		}
 
+		public static class Explosion
+		{
+			public static Texture2D Mid, Left, Right, Up, Down, LeftRight, UpDown;
+		}
+
 		public static void Load(ContentManager content)
 		{
 			Test = content.Load<Texture2D>("test");
@@ -52,6 +57,17 @@ namespace ggj2015
 
 			Player.BackDead = content.Load<Texture2D>("player/bgdead");
 			Player.ForeDead = content.Load<Texture2D>("player/dead");
+
+
+			Explosion.Mid = content.Load<Texture2D>("explosion/mid");
+
+			Explosion.Left = content.Load<Texture2D>("explosion/left");
+			Explosion.Right = content.Load<Texture2D>("explosion/right");
+			Explosion.Up = content.Load<Texture2D>("explosion/up");
+			Explosion.Down = content.Load<Texture2D>("explosion/down");
+
+			Explosion.LeftRight = content.Load<Texture2D>("explosion/leftright");
+			Explosion.UpDown = content.Load<Texture2D>("explosion/updown");
 		}
 	}
 

@@ -18,9 +18,13 @@ namespace ggj2015
 		Bomb
 	}
 
-	public class ControlPacket
+	public class BasePacket
 	{
 		public int Id;
+	}
+
+	public class ControlPacket : BasePacket
+	{
 		public Control[] Controls;
 
 		public ControlPacket()

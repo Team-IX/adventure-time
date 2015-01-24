@@ -44,17 +44,17 @@ function startGame()
 	$('#bomb').text('Player ' + (Player.number + 1));
 
 	// Set up event handlers for touch
-	$('.control').on('mouseup mousedown', function(event) {
-		event.preventDefault();
-		handleClick(event);
-	});
+	$('.control').on('mouseup mousedown', handleClick);
 
 	controls = document.getElementsByClassName('control');
 
 	for (var i = controls.length - 1; i >= 0; i--) {
 		controls[i].addEventListener('touchstart', handleTouch, false);
 		controls[i].addEventListener('touchend', handleTouch, false);
-		controls[i].addEventListener('touchcancel', handleTouch, false);
+
+		// controls[i].addEventListener('touchstart', logTouchStart, false);
+		// controls[i].addEventListener('touchend', logTouchEnd, false);
+		// controls[i].addEventListener('touchcancel', logTouchCancel, false);
 	};
 
 	// Also for keyboard
@@ -69,7 +69,10 @@ function startGame()
 
 function handleTouch(event)
 {
-	console.log(event);
+	event.preventDefault();
+
+	console.log('handling touch');
+
 	var touchedButtons = [];
 
 	for (var i = event.touches.length - 1; i >= 0; i--) {
@@ -81,6 +84,10 @@ function handleTouch(event)
 
 function handleKey(event)
 {
+	event.preventDefault();
+
+	console.log('handling key');
+
 	if (event.keyCode == 87) changedButton = 'up';
 	else if (event.keyCode == 65) changedButton = 'left';
 	else if (event.keyCode == 68) changedButton = 'right';
@@ -101,6 +108,10 @@ function handleKey(event)
 
 function handleClick(event)
 {
+	event.preventDefault();
+
+	console.log('handling click');
+
 	changedButton = event.target.id;
 	newState = event.type;
 
@@ -137,7 +148,9 @@ function checkForNewColor()
 {
 	$.ajax('/status',
 	{
-		data: Player.id,
+		data: JSON.stringify({
+			id: Player.id
+		}),
 		type: 'POST',
 		dataType: 'json',
 		success: function(data)
@@ -146,8 +159,17 @@ function checkForNewColor()
 			Player.color = data.color;
 
 			$('.control').css({ background: Player.color });
-
+		},
+		complete: function(data, status)
+		{
 			window.setTimeout(checkForNewColor, 250);
-		}
+		} 
 	});
 }
+
+
+
+// DEBUG AS FUCK
+function logTouchStart() { console.log('touchStart'); }
+function logTouchEnd() { console.log('touchEnd'); }
+function logTouchCancel() { console.log('touchCancel'); }

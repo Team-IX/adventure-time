@@ -169,6 +169,7 @@ namespace ggj2015
 			}
 			foreach (var explosion in Explosions)
 			{
+				explosion.Render();
 			}
 			foreach (var player in Players)
 			{

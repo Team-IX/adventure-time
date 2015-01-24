@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FarseerPhysics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ggj2015
@@ -18,6 +19,11 @@ namespace ggj2015
 		public static void DrawTile(this SpriteBatch batch, Texture2D tex, Vector2 pos, Color? color = null)
 		{
 			batch.Draw(tex, pos, scale: new Vector2(Globals.TilePx / tex.Width), origin: tex.CenteredOrigin(), color: color);
+		}
+
+		public static void DrawTileCell(this SpriteBatch batch, Texture2D tex, int x, int y, Color? color = null)
+		{
+			batch.DrawTile(tex, ConvertUnits.ToDisplayUnits(new Vector2(x, y) * GameWorld.CellSize), color);
 		}
 	}
 }
