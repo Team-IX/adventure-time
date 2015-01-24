@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using FarseerPhysics;
 using FarseerPhysics.Common;
 using FarseerPhysics.DebugView;
@@ -120,6 +122,12 @@ namespace ggj2015
 
 			Globals.Simulation.UpdateControls();
 
+			if (Globals.State == GameState.PlayingGame && Globals.Simulation.Players.Count(x => x.IsAlive) == 1)
+			{
+				Globals.State = GameState.PostGame;
+				Globals.PostGame.Init();
+			}
+
 			if (Globals.State == GameState.PlayingGame)
 			{
 				Globals.Simulation.Update();
@@ -127,6 +135,14 @@ namespace ggj2015
 
 				Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
 				Globals.Simulation.PostPhysicsUpdate();
+			}
+			else if (Globals.State == GameState.PreGame)
+			{
+				Globals.PreGame.Update(states);
+			}
+			else if (Globals.State == GameState.PostGame)
+			{
+				Globals.PostGame.Update();
 			}
 		}
 
@@ -159,7 +175,11 @@ namespace ggj2015
 
 			if (Globals.State == GameState.PreGame)
 			{
-				Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "This is the game", new Vector2(Globals.RenderWidth / 2f, 100), Color.White, 0.3f);
+				Globals.PreGame.Render();
+			}
+			else if (Globals.State == GameState.PostGame)
+			{
+				Globals.PostGame.Render();
 			}
 			Globals.SpriteBatch.End();
 

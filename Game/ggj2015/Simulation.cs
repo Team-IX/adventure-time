@@ -44,7 +44,7 @@ namespace ggj2015
 				"#ff0000",
 				"#00ff00",
 				"#0000ff",
-				"#ffffff"
+				"#333333"
 			};
 
 			Players = new Player[Player.Count];

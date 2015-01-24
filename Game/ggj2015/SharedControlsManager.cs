@@ -97,6 +97,11 @@ namespace ggj2015
 			foreach (var pp in _idLookup.Values)
 				pp.ResetEvent.Set();
 		}
+
+		public int CurrentCount
+		{
+			get { return _idLookup.Count; }
+		}
 	}
 
 	public class PlayerPerson

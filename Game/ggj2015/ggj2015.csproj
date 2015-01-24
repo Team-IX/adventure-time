@@ -54,6 +54,8 @@
     <Compile Include="GameState.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PostGameManager.cs" />
+    <Compile Include="PreGameManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />

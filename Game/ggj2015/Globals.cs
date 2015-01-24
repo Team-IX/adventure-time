@@ -23,6 +23,9 @@ namespace ggj2015
 
 		public static readonly Random Random = new Random();
 
+		public static readonly PostGameManager PostGame = new PostGameManager();
+		public static readonly PreGameManager PreGame = new PreGameManager();
+
 		public static GameState State = GameState.PreGame;
 
 		public const float TilePx = 52;
