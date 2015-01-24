@@ -42,12 +42,11 @@ namespace ggj2015
 
 			//Randomly place BreakableWall
 
-			var random = new Random();
 
 			for (var i = 0; i < BreakableWallCount; i++)
 			{
-				var x = random.Next(0, Width);
-				var y = random.Next(0, Height);
+				var x = Globals.Random.Next(0, Width);
+				var y = Globals.Random.Next(0, Height);
 
 				if ((x <= 1 && y <= 1) ||
 					(x <= 1 && y >= Height - 2) ||
@@ -168,6 +167,15 @@ namespace ggj2015
 
 				Globals.World.RemoveBody(b.Body);
 				ObjectsInCells[x, y] = null;
+
+				var powerUp = new PowerUp(x, y);
+				Globals.Simulation.PowerUps.Add(powerUp);
+			}
+			else if (o is PowerUp)
+			{
+				var p = (PowerUp)o;
+
+				p.Destroy();
 			}
 		}
 	}

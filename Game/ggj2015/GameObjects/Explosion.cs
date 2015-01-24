@@ -18,11 +18,13 @@ namespace ggj2015.GameObjects
 		private const float Padding = GameWorld.CellSize * 0.05f;
 
 		public TimeSpan TimeToDie { get; set; }
+		public TimeSpan TimeCreated { get; set; }
 
 
 		public Explosion(int centerX, int centerY, int minX, int maxX, int minY, int maxY)
 		{
-			TimeToDie = Globals.GameTime.TotalGameTime + TimeSpan.FromSeconds(1);
+			TimeCreated = Globals.GameTime.TotalGameTime;
+			TimeToDie = Globals.GameTime.TotalGameTime + TimeSpan.FromSeconds(0.3f);
 
 			//				((Player)p.UserData).Die();
 			float midX = ((minX + maxX) / 2f) * GameWorld.CellSize;
@@ -50,7 +52,12 @@ namespace ggj2015.GameObjects
 				((Player)otherBody.UserData).Die();
 			if (otherBody.UserData is Bomb)
 				((Bomb)otherBody.UserData).ForceExplode();
-
+			if (otherBody.UserData is PowerUp)
+			{
+				var p = (PowerUp)otherBody.UserData;
+				if (TimeCreated > p.TimeCreated + PowerUp.PowerUpInvulnerabilityStartTime)
+					p.Destroy();
+			}
 			return true;
 		}
 
