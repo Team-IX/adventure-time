@@ -7,8 +7,7 @@ namespace ggj2015
 {
 	public class SharedControlsManager
 	{
-		private readonly Dictionary<string, Player> _idLookup = new Dictionary<string, Player>();
-		private readonly List<PlayerPerson> _playerPersons = new List<PlayerPerson>();
+		private readonly Dictionary<string, PlayerPerson> _idLookup = new Dictionary<string, PlayerPerson>();
 
 		private readonly ManualResetEventSlim _longPollReset = new ManualResetEventSlim(false);
 
@@ -34,9 +33,8 @@ namespace ggj2015
 
 				p.PersonCount++;
 				var id = Guid.NewGuid().ToString();
-				_idLookup[id] = p;
 				var pp = new PlayerPerson(p, id);
-				_playerPersons.Add(pp);
+				_idLookup[id] = pp;
 				return pp;
 			}
 		}
@@ -45,13 +43,13 @@ namespace ggj2015
 		{
 			lock (this)
 			{
-				_idLookup[packet.Id].ConsumePacket(packet);
+				_idLookup[packet.Id].Player.ConsumePacket(packet);
 			}
 		}
 
 		public void EverybodySwap()
 		{
-			if (!Globals.Simulation.Players.All(x => x.IsAlive))
+			if (Globals.Simulation.Players.Count(x => x.IsAlive) < 2)
 				return;
 
 			lock (this)
@@ -61,18 +59,18 @@ namespace ggj2015
 					p.ResetVotes();
 				}
 
-				foreach (var pp in _playerPersons)
+				foreach (var pp in _idLookup.Values)
 				{
 					if (!pp.Player.IsAlive)
 						continue;
 
 					//Get a random player that is alive
+					var startingPlayer = pp.Player;
 					do
 					{
 						pp.Player = Globals.Simulation.Players[Globals.Random.Next(0, Player.Count)];
-					} while (!pp.Player.IsAlive);
+					} while (!pp.Player.IsAlive || pp.Player == startingPlayer);
 
-					_idLookup[pp.Id] = pp.Player;
 					pp.RaiseColorChanged();
 				}
 			}
@@ -82,7 +80,7 @@ namespace ggj2015
 
 		public object StatusPoll(BasePacket packet)
 		{
-			var pp = _playerPersons.Single(x => x.Id == packet.Id);
+			var pp = _idLookup[packet.Id];
 			pp.ResetEvent.Wait(TimeSpan.FromSeconds(10));
 			pp.ResetEvent.Reset();
 
@@ -91,7 +89,7 @@ namespace ggj2015
 
 		public void Reset()
 		{
-			_playerPersons.Clear();
+			_idLookup.Clear();
 		}
 	}
 

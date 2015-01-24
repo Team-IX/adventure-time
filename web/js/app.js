@@ -43,19 +43,31 @@ function startGame()
 	$('.control').css('background-color', Player.color);
 	$('#bomb').text('Player ' + (Player.number + 1));
 
-	// Set up event handlers for touch
-	$('.control').on('mouseup mousedown', handleClick);
-
 	controls = document.getElementsByClassName('control');
 
 	for (var i = controls.length - 1; i >= 0; i--) {
-		controls[i].addEventListener('touchstart', handleTouch, false);
-		controls[i].addEventListener('touchend', handleTouch, false);
+		if (window.navigator.msPointerEnabled) {
+			// MS Events (handles both touch and mouse input)
+			controls[i].addEventListener('MSPointerDown', handleTouch, false);
+			controls[i].addEventListener('MSPointerUp', handleTouch, false);
+		} else {
+			// Other browsers
+			controls[i].addEventListener('touchstart', handleTouch, false);
+			controls[i].addEventListener('touchend', handleTouch, false);
+			controls[i].addEventListener('touchenter', handleTouch, false);
+			controls[i].addEventListener('touchleave', handleTouch, false);
+			
+		}
+
 
 		// controls[i].addEventListener('touchstart', logTouchStart, false);
 		// controls[i].addEventListener('touchend', logTouchEnd, false);
 		// controls[i].addEventListener('touchcancel', logTouchCancel, false);
 	};
+
+	if (! window.navigator.msPointerEnabled) {
+		$('.control').on('mouseup mousedown mouseleave', handleClick);
+	}
 
 	// Also for keyboard
 	$(document).on('keydown keyup', function(event)

@@ -25,68 +25,78 @@ body {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	height: 200px;
+	height: 100px;
 	width: 550px;
-	margin: -100px 0 0 -275px;
+	margin: -50px 0 0 -275px;
+	font-size: 50px;
 	line-height: 100px;
 	text-align: center;
-	font-size: 50px;
+	text-transform: uppercase;
 }
 
-.movement,
+.movement {
+	position: absolute;
+	margin: 20px;
+	width: calc(60% - 40px);
+	height: calc(100% - 40px);
+}
+
 #bomb {
 	position: absolute;
-	width: 60%;
 	height: 100%;
-}
-
-#bomb {
 	width: 40%;
 	right: 0;
 	background-color: grey;
-	background-position: middle center;
+	background-image: url('/img/sex-bob-omb.png');
+	background-position: center center;
 }
 
 .control {
 	text-align: center;
-	line-height: 100%;
-	background-position: middle center;
+	background-size: 75%;
+	background-repeat: no-repeat;
+}
+
+.control:active, .pressed {
+	box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.65);
 }
 
 .control:not(#bomb) {
 	position: absolute;
-	background: grey;
+	background-color: grey;
 	width: 33.3333%;
 	height: 33.3333%;
-}
-
-.control span {
-	display: block;
-	width: 100%;
 }
 
 #up {
 	top: 0;
 	left: 33.3333%;
 	background-image: url('/img/up.png');
+	background-position: center bottom;
 }
 
 #left {
 	left: 0;
 	top: 33.3333%;
 	background-image: url('/img/left.png');
+	background-position: right center;
 }
 
 #right {
 	right: 0;
 	top: 33.3333%;
 	background-image: url('/img/right.png');
+	background-position: left center;
 }
 
 #down {
 	bottom: 0;
 	left: 33.3333%;
 	background-image: url('/img/down.png');
+	background-position: center top;
 }
 
-#bomb
+#up,
+#down {
+	background-size: 25%;
+}
