@@ -56,7 +56,7 @@ namespace ggj2015
 			Body = BodyFactory.CreateRoundedRectangle(Globals.World,
 				GameWorld.CellSize * GameWorld.PlayerScale, GameWorld.CellSize * GameWorld.PlayerScale,
 				GameWorld.PlayerRadius, GameWorld.PlayerRadius,
-				4, 0.01f,
+				4, 0.0125f,
 				new Vector2(startPos.X * GameWorld.CellSize, startPos.Y * GameWorld.CellSize), bodyType: BodyType.Dynamic);
 			Body.FixedRotation = true;
 			Body.LinearDamping = 20;
@@ -175,7 +175,7 @@ namespace ggj2015
 
 		public void Render()
 		{
-			Vector2 offset = new Vector2(0, 34);
+			Vector2 offset = new Vector2(0, 30);
 
 			//Direction
 
@@ -211,8 +211,10 @@ namespace ggj2015
 				fore = Resources.Player.ForeDead;
 			}
 
-			Globals.SpriteBatch.DrawTile(back, ConvertUnits.ToDisplayUnits(Body.Position) - offset, Color);
-			Globals.SpriteBatch.DrawTile(fore, ConvertUnits.ToDisplayUnits(Body.Position) - offset);
+			//Globals.SpriteBatch.DrawTile(back, ConvertUnits.ToDisplayUnits(Body.Position) - offset, Color);
+			Globals.SpriteBatch.Draw(back, ConvertUnits.ToDisplayUnits(Body.Position) - offset, scale: new Vector2((Globals.TilePx * 0.8f) / fore.Width), origin: fore.CenteredOrigin(), color: Color);
+			Globals.SpriteBatch.Draw(fore, ConvertUnits.ToDisplayUnits(Body.Position) - offset, scale: new Vector2((Globals.TilePx * 0.8f) / fore.Width), origin: fore.CenteredOrigin());
+			//Globals.SpriteBatch.DrawTile(fore, ConvertUnits.ToDisplayUnits(Body.Position) - offset);
 		}
 	}
 }

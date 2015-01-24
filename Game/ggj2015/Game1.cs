@@ -55,8 +55,8 @@ namespace ggj2015
 			base.Initialize();
 
 
-#if truet
-			var form = (Form)Control.FromHandle(Window.Handle);
+#if truef
+			var form = (Form)System.Windows.Forms.Control.FromHandle(Window.Handle);
 			form.FormBorderStyle = FormBorderStyle.None;
 			_graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
 			_graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
