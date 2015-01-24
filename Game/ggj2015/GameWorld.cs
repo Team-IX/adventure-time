@@ -87,8 +87,8 @@ namespace ggj2015
 
 */
 
-		public static float PlayerScale = 0.85f;
-		public static float PlayerRadius = CellSize * PlayerScale * 0.3f;
+		public static float PlayerScale = 0.75f;
+		public static float PlayerRadius = CellSize * PlayerScale * 0.4f;
 
 		public static float UnbreakableWallRadius = CellSize * 0.3f;
 
