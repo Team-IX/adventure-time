@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using FarseerPhysics;
@@ -107,7 +108,9 @@ namespace ggj2015
 			var states = Globals.Input.Keyboards.Select(x => x.GetState()).ToArray();
 			var gamePadState = Globals.Input.GamePads[0].GetState();
 			if (gamePadState.Buttons.Back == ButtonState.Pressed || states.Any(s => s.IsKeyDown(Keys.Escape)))
+			{
 				Exit();
+			}
 
 			if (states.Any(s => s.IsKeyDown(Keys.Space)))
 			{
@@ -116,11 +119,21 @@ namespace ggj2015
 
 
 			Globals.Simulation.UpdateControls();
-			Globals.Simulation.Update();
-			// TODO: Add your update logic here
 
-			Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
-			Globals.Simulation.PostPhysicsUpdate();
+			if (Globals.State == GameState.PlayingGame)
+			{
+				Globals.Simulation.Update();
+				// TODO: Add your update logic here
+
+				Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
+				Globals.Simulation.PostPhysicsUpdate();
+			}
+		}
+
+		protected override void OnExiting(object sender, EventArgs args)
+		{
+			Globals.WebServer.Stop();
+			base.OnExiting(sender, args);
 		}
 
 		/// <summary>
@@ -141,6 +154,13 @@ namespace ggj2015
 			
 			Globals.SpriteBatch.Begin(transformMatrix: Matrix.CreateScale((float)GraphicsDevice.PresentationParameters.BackBufferWidth / Globals.RenderWidth, (float)GraphicsDevice.PresentationParameters.BackBufferHeight / Globals.RenderHeight, 1));
 			Globals.Simulation.Render();
+			Globals.SpriteBatch.End();
+
+			Globals.SpriteBatch.Begin();
+			if (Globals.State == GameState.PreGame)
+			{
+				Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "This is the game", new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth / 2f, 100), Color.White, 0.3f);
+			}
 			Globals.SpriteBatch.End();
 
 			//_debugView.RenderDebugData(projection, Matrix.Identity);

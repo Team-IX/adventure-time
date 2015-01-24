@@ -25,5 +25,14 @@ namespace ggj2015
 		{
 			batch.DrawTile(tex, ConvertUnits.ToDisplayUnits(new Vector2(x, y) * GameWorld.CellSize), color);
 		}
+
+		public static void DrawStringCentered(this SpriteBatch batch, SpriteFont font, string text, Vector2 pos, Color color, float scale = 1)
+		{
+			var size = font.MeasureString(text) * scale;
+
+			pos -= new Vector2(size.X / 2, 0);
+
+			batch.DrawString(font, text, pos, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+		}
 	}
 }

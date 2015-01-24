@@ -32,6 +32,8 @@ namespace ggj2015
 			public static Texture2D Mid, Left, Right, Up, Down, LeftRight, UpDown;
 		}
 
+		public static SpriteFont Font200;
+
 		public static void Load(ContentManager content)
 		{
 			Test = content.Load<Texture2D>("test");
@@ -68,6 +70,9 @@ namespace ggj2015
 
 			Explosion.LeftRight = content.Load<Texture2D>("explosion/leftright");
 			Explosion.UpDown = content.Load<Texture2D>("explosion/updown");
+
+
+			Font200 = content.Load<SpriteFont>("Cocogoose_200");
 		}
 	}
 

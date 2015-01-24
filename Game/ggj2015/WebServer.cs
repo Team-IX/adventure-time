@@ -30,7 +30,7 @@ namespace ggj2015
 
 			_listener.Start();
 
-			Process.Start("http://127.0.0.1:" + port);
+			//Process.Start("http://127.0.0.1:" + port);
 
 			_rootPath = "web";
 			for (var i = 0; i < 8; i++)

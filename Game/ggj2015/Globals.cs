@@ -23,6 +23,7 @@ namespace ggj2015
 
 		public static readonly Random Random = new Random();
 
+		public static GameState State = GameState.PreGame;
 
 		public const float TilePx = 52;
 	}

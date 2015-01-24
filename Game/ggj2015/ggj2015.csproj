@@ -51,6 +51,7 @@
     <Compile Include="GameObjects\Explosion.cs" />
     <Compile Include="GameObjects\PowerUp.cs" />
     <Compile Include="GameObjects\UnbreakableWall.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

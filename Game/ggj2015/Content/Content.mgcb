@@ -574,3 +574,9 @@
 /processorParam:TextureFormat=Color
 /build:explosion/updown.png
 
+#begin Cocogoose_200.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Color
+/build:Cocogoose_200.spritefont
+
