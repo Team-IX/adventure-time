@@ -36,5 +36,7 @@ namespace ggj2015
 			Id = id;
 			Controls = controls;
 		}
+
+		public TimeSpan TimeReceived { get; set; }
 	}
 }

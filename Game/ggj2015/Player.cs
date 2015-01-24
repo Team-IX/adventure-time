@@ -38,7 +38,7 @@ namespace ggj2015
 		public int BombExplosionSize = 1;
 
 
-		private readonly Dictionary<string, ControlPacket> _votes = new Dictionary<string, ControlPacket>(); 
+		private readonly Dictionary<string, ControlPacket> _votes = new Dictionary<string, ControlPacket>();
 
 		public Player(int playerNumber, string colorStr, Vector2 startPos)
 		{
@@ -69,7 +69,19 @@ namespace ggj2015
 		{
 			lock (this)
 			{
+				packet.TimeReceived = Globals.GameTime.TotalGameTime;
 				_votes[packet.Id] = packet;
+			}
+		}
+
+		private void TidyUp()
+		{
+			foreach (var kvp in _votes.ToArray())
+			{
+				if (kvp.Value.TimeReceived < Globals.GameTime.TotalGameTime - TimeSpan.FromSeconds(4))
+				{
+					_votes.Remove(kvp.Key);
+				}
 			}
 		}
 
@@ -77,6 +89,8 @@ namespace ggj2015
 		{
 			lock (this)
 			{
+				TidyUp();
+
 				var votes = _votes.SelectMany(x => x.Value.Controls).Where(x => x != Control.Bomb).GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
 
 				if (votes.Count == 0)
@@ -92,7 +106,10 @@ namespace ggj2015
 		{
 			lock (this)
 			{
-				return _votes.Any(x => x.Value.Controls.Contains(Control.Bomb));
+				TidyUp();
+				var held = _votes.Count(x => x.Value.Controls.Contains(Control.Bomb));
+				var required = Math.Max(1, _votes.Count / 2);
+				return held >= required;
 			}
 		}
 
@@ -167,7 +184,10 @@ namespace ggj2015
 
 		public void ResetVotes()
 		{
-			_votes.Clear();
+			lock (this)
+			{
+				_votes.Clear();
+			}
 		}
 
 

@@ -91,6 +91,12 @@ namespace ggj2015
 		{
 			_idLookup.Clear();
 		}
+
+		public void Stop()
+		{
+			foreach (var pp in _idLookup.Values)
+				pp.ResetEvent.Set();
+		}
 	}
 
 	public class PlayerPerson

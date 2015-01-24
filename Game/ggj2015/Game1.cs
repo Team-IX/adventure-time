@@ -133,6 +133,7 @@ namespace ggj2015
 		protected override void OnExiting(object sender, EventArgs args)
 		{
 			Globals.WebServer.Stop();
+			Globals.Controls.Stop();
 			base.OnExiting(sender, args);
 		}
 
@@ -147,19 +148,18 @@ namespace ggj2015
 			// TODO: Add your drawing code here
 
 			var projection = Matrix.CreateOrthographicOffCenter(ConvertUnits.ToSimUnits(0 - ConvertUnits.LeftOffset), ConvertUnits.ToSimUnits(Globals.RenderWidth - ConvertUnits.LeftOffset), ConvertUnits.ToSimUnits(Globals.RenderHeight - ConvertUnits.TopOffset), ConvertUnits.ToSimUnits(0 - ConvertUnits.TopOffset), -1, 1);
+			var scaleMatrix = Matrix.CreateScale((float)GraphicsDevice.PresentationParameters.BackBufferWidth / Globals.RenderWidth, (float)GraphicsDevice.PresentationParameters.BackBufferHeight / Globals.RenderHeight, 1);
 
-			Globals.SpriteBatch.Begin(samplerState: SamplerState.AnisotropicWrap, transformMatrix: Matrix.CreateTranslation(ConvertUnits.LeftOffset - 70, ConvertUnits.TopOffset - 60, 0));
+			Globals.SpriteBatch.Begin(samplerState: SamplerState.AnisotropicWrap, transformMatrix: Matrix.CreateTranslation(ConvertUnits.LeftOffset - 70, ConvertUnits.TopOffset - 60, 0) * scaleMatrix);
 			Globals.SpriteBatch.Draw(Resources.Objects.BackgroundTile, new Rectangle(0, 0, (int)((GameWorld.Width + 1) * Globals.TilePx), (int)((GameWorld.Height + 1) * Globals.TilePx)), new Rectangle(0, 0, (int)(Resources.Objects.BackgroundTile.Width * Globals.TilePx * GameWorld.CellSize * 0.5f), (int)(Resources.Objects.BackgroundTile.Height * Globals.TilePx* GameWorld.CellSize * 0.5f)), Color.White);
 			Globals.SpriteBatch.End();
-			
-			Globals.SpriteBatch.Begin(transformMatrix: Matrix.CreateScale((float)GraphicsDevice.PresentationParameters.BackBufferWidth / Globals.RenderWidth, (float)GraphicsDevice.PresentationParameters.BackBufferHeight / Globals.RenderHeight, 1));
-			Globals.Simulation.Render();
-			Globals.SpriteBatch.End();
 
-			Globals.SpriteBatch.Begin();
+			Globals.SpriteBatch.Begin(transformMatrix: scaleMatrix);
+			Globals.Simulation.Render();
+
 			if (Globals.State == GameState.PreGame)
 			{
-				Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "This is the game", new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth / 2f, 100), Color.White, 0.3f);
+				Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "This is the game", new Vector2(Globals.RenderWidth / 2f, 100), Color.White, 0.3f);
 			}
 			Globals.SpriteBatch.End();
 

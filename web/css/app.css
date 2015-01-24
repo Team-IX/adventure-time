@@ -45,8 +45,9 @@ body , document, html {
 
 #bomb {
 	position: absolute;
-	height: 100%;
-	width: 40%;
+	height: 96%;
+	width: 38%;
+	margin: 2% 2% 2% 0;
 	right: 0;
 	background-color: grey;
 	background-image: url('/img/sex-bob-omb.png');
