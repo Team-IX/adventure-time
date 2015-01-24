@@ -19,6 +19,7 @@ namespace ggj2015
 
 		public readonly List<Bomb> Bombs = new List<Bomb>();
 		public readonly List<Explosion> Explosions = new List<Explosion>();
+		public readonly List<PowerUp> PowerUps = new List<PowerUp>();
 
 		public void InitialPopulate()
 		{
@@ -41,22 +42,12 @@ namespace ggj2015
 			Players = new Player[Player.Count];
 			for (var i = 0; i < Player.Count; i++)
 			{
-				var pos = playerCellStarts[i];
-				var playerBody = BodyFactory.CreateRoundedRectangle(Globals.World,
-					GameWorld.CellSize * GameWorld.PlayerScale, GameWorld.CellSize * GameWorld.PlayerScale,
-					GameWorld.PlayerRadius, GameWorld.PlayerRadius,
-					4, 0.01f,
-					new Vector2(pos.X * GameWorld.CellSize, pos.Y * GameWorld.CellSize), bodyType: BodyType.Dynamic);
-				playerBody.FixedRotation = true;
-				playerBody.LinearDamping = 20;
-				playerBody.Friction = 0;
-				playerBody.SleepingAllowed = false;
 
 				//var limit = new VelocityLimitController(PlayerMaximumVelocity, 0);
 				//Globals.World.AddController(limit);
 				//limit.AddBody(playerBody);
 
-				Players[i] = new Player(i, colors[i], playerBody);
+				Players[i] = new Player(i, colors[i], playerCellStarts[i]);
 			}
 		}
 
@@ -81,25 +72,29 @@ namespace ggj2015
 
 		public void UpdateControls(GameTime gameTime)
 		{
-			var gps1 = Globals.Input.GamePads[0].GetState();
+			for (var i = 0; i < Player.Count; i++)
+			{
+				var gps1 = Globals.Input.GamePads[i].GetState();
 
-			List<Control> controls = new List<Control>();
-			if (gps1.DPad.Down == ButtonState.Pressed)
-				controls.Add(Control.Down);
-			if (gps1.DPad.Left == ButtonState.Pressed)
-				controls.Add(Control.Left);
-			if (gps1.DPad.Up == ButtonState.Pressed)
-				controls.Add(Control.Up);
-			if (gps1.DPad.Right == ButtonState.Pressed)
-				controls.Add(Control.Right);
-			if (gps1.IsButtonDown(Buttons.A))
-				controls.Add(Control.Bomb);
+				List<Control> controls = new List<Control>();
+				if (gps1.DPad.Down == ButtonState.Pressed)
+					controls.Add(Control.Down);
+				if (gps1.DPad.Left == ButtonState.Pressed)
+					controls.Add(Control.Left);
+				if (gps1.DPad.Up == ButtonState.Pressed)
+					controls.Add(Control.Up);
+				if (gps1.DPad.Right == ButtonState.Pressed)
+					controls.Add(Control.Right);
+				if (gps1.IsButtonDown(Buttons.A))
+					controls.Add(Control.Bomb);
 
-			Players[0].ConsumePacket(new ControlPacket(0, controls.ToArray()));
+				//Local inputs get negative indexes cause easy
+				Players[i].ConsumePacket(new ControlPacket(-i, controls.ToArray()));
 
 
-			Players[0].ApplyMovementForce();
-			Players[0].BombUpdate(gameTime);
+				Players[i].ApplyMovementForce();
+				Players[i].BombUpdate(gameTime);
+			}
 		}
 
 		public bool TryCreateBomb(Player player, int x, int y)

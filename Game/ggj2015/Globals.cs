@@ -21,5 +21,7 @@ namespace ggj2015
 		public static GameWorld GameWorld { get; set; }
 		public static Simulation Simulation { get; set; }
 		public static GameTime GameTime { get; set; }
+
+		public static readonly Random Random = new Random();
 	}
 }
