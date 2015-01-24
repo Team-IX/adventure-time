@@ -27,7 +27,7 @@ namespace ggj2015
 
 			_listener.Start();
 
-			//TODOD Process.Start("http://127.0.0.1:12543");
+			Process.Start("http://127.0.0.1:12543");
 		}
 
 		public void Run()
@@ -68,16 +68,6 @@ namespace ggj2015
 
 		private object ProcessRequest(HttpListenerRequest request)
 		{
-			if (request.Url.LocalPath.StartsWith("/static/"))
-			{
-				var fileName = "static/" + request.Url.LocalPath.Substring("/static/".Length);
-				if (File.Exists(fileName))
-				{
-					if (fileName.EndsWith(".html") || fileName.EndsWith(".js") || fileName.EndsWith(".css"))
-						return File.ReadAllText(fileName);
-					return File.ReadAllBytes(fileName);
-				}
-			}
 
 			if (request.Url.LocalPath.StartsWith("/join"))
 			{
@@ -104,6 +94,17 @@ namespace ggj2015
 				{
 					//Console.WriteLine("Failed to get update: " + ex);
 				}
+			}
+
+			var fileName = request.Url.LocalPath.Substring(1);
+			if (fileName == "")
+				fileName = "index.html";
+			fileName = Path.Combine("../../../../../web/", fileName);
+			if (File.Exists(fileName))
+			{
+				if (fileName.EndsWith(".html") || fileName.EndsWith(".js") || fileName.EndsWith(".css"))
+					return File.ReadAllText(fileName);
+				return File.ReadAllBytes(fileName);
 			}
 
 			return "You requested " + request.Url;

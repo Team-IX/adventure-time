@@ -79,7 +79,8 @@ namespace ggj2015
 			Globals.GameWorld.InitialPopulate();
 			Globals.Simulation.InitialPopulate();
 			Globals.Simulation.CreatePlayerPersonForGamepads();
-			//BodyFactory.CreateCircle(Globals.World, 20, 1, new Vector2(10, 50), BodyType.Dynamic);
+
+			Globals.WebServer.Run();
 		}
 
 		/// <summary>

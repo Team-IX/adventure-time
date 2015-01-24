@@ -16,15 +16,15 @@ var buttonsPressed = {
 
 $(document).ready(function ()
 {
-	// initWithServer();
-	initWithoutServer(); // Remove when actually running game
+	initWithServer();
+	//initWithoutServer(); // Remove when actually running game
 });
 
 function initWithServer()
 {
 	// Request a number / color
-	$.get({
-		url: '/join',
+	$.ajax('/join', {
+		dataType:'json',
 		success: function(data)
 		{
 			// Bind player data
@@ -93,15 +93,18 @@ function updateServer()
 
 	console.log(buttonsToSend);
 
-	$.get({
-		url: '/update',
-		data: {
+	$.ajax('/update',
+	{
+		data:JSON.stringify({
 			id: Player.id,
 			controls: buttonsToSend
-		},
+		}),
+		type:'POST',
+		dataType:'json',
 		success: function(data)
 		{
 			// SHIT SON
+			console.log('!!!!');
 		}
 	});
 }
