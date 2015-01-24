@@ -224,17 +224,17 @@ namespace ggj2015
 
 				back = sprites.Back[(int)_spriteIndex];
 				fore = sprites.Fore[(int)_spriteIndex];
+
+				Globals.SpriteBatch.Draw(back, ConvertUnits.ToDisplayUnits(Body.Position) - offset, scale: new Vector2((Globals.TilePx * 0.8f) / fore.Width), origin: fore.CenteredOrigin(), color: Color);
+				Globals.SpriteBatch.Draw(fore, ConvertUnits.ToDisplayUnits(Body.Position) - offset, scale: new Vector2((Globals.TilePx * 0.8f) / fore.Width), origin: fore.CenteredOrigin());
 			}
 			else
 			{
 				back = Resources.Player.BackDead;
 				fore = Resources.Player.ForeDead;
+				Globals.SpriteBatch.Draw(back, ConvertUnits.ToDisplayUnits(Body.Position), scale: new Vector2((Globals.TilePx * 0.8f) / fore.Width), origin: fore.CenteredOrigin(), color: Color);
+				Globals.SpriteBatch.Draw(fore, ConvertUnits.ToDisplayUnits(Body.Position), scale: new Vector2((Globals.TilePx * 0.8f) / fore.Width), origin: fore.CenteredOrigin());
 			}
-
-			//Globals.SpriteBatch.DrawTile(back, ConvertUnits.ToDisplayUnits(Body.Position) - offset, Color);
-			Globals.SpriteBatch.Draw(back, ConvertUnits.ToDisplayUnits(Body.Position) - offset, scale: new Vector2((Globals.TilePx * 0.8f) / fore.Width), origin: fore.CenteredOrigin(), color: Color);
-			Globals.SpriteBatch.Draw(fore, ConvertUnits.ToDisplayUnits(Body.Position) - offset, scale: new Vector2((Globals.TilePx * 0.8f) / fore.Width), origin: fore.CenteredOrigin());
-			//Globals.SpriteBatch.DrawTile(fore, ConvertUnits.ToDisplayUnits(Body.Position) - offset);
 		}
 	}
 }

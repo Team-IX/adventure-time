@@ -24,6 +24,7 @@ namespace ggj2015
 		public readonly List<Explosion> Explosions = new List<Explosion>();
 		public readonly List<PowerUp> PowerUps = new List<PowerUp>();
 		private readonly PlayerPerson[] _gamePadPlayerPerson = new PlayerPerson[GamePadCount];
+		private TimeSpan? _lastEveryBodySwap;
 
 		public void InitialPopulate()
 		{
@@ -179,6 +180,12 @@ namespace ggj2015
 			{
 				player.Render();
 			}
+
+			if (_lastEveryBodySwap.HasValue && _lastEveryBodySwap.Value > Globals.GameTime.TotalGameTime - TimeSpan.FromSeconds(1))
+			{
+				for (var i = 0; i < 6; i++)
+					Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "WHAT DO WE DO NOW !>#$??", new Vector2(Globals.RenderWidth / 2, 50 + i * 100), new Color(Globals.Random.Next(50, 255), Globals.Random.Next(50, 255), Globals.Random.Next(50, 255)), 0.3f);
+			}
 		}
 
 		public void Reset()
@@ -188,6 +195,13 @@ namespace ggj2015
 			Globals.Simulation.InitialPopulate();
 			Globals.Controls.Reset();
 			Globals.Simulation.CreatePlayerPersonForGamepads();
+
+			_lastEveryBodySwap = null;
+		}
+
+		public void EverybodySwapTriggered()
+		{
+			_lastEveryBodySwap = Globals.GameTime.TotalGameTime;
 		}
 	}
 }

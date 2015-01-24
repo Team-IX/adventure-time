@@ -18,10 +18,12 @@ namespace ggj2015.GameObjects
 		MoreBombs,
 		BiggerExplosions,
 		MoreSpeed,
+
+		Count,
+
 		EverybodySwap,
 
 
-		Count
 	}
 
 	class PowerUp : GameObject
@@ -41,11 +43,15 @@ namespace ggj2015.GameObjects
 
 			_gridX = gridX;
 			_gridY = gridY;
-			Type = (PowerUpType)Globals.Random.Next(0, (int)PowerUpType.Count);
 
 			Body = BodyFactory.CreateRectangle(Globals.World, GameWorld.CellSize * 0.1f, GameWorld.CellSize * 0.1f, 0, new Vector2(gridX, gridY) * GameWorld.CellSize, 0, BodyType.Static, this);
 
 			Body.OnCollision += Body_OnCollision;
+
+			if (Globals.Random.NextDouble() < 0.05)
+				Type = PowerUpType.EverybodySwap;
+			else
+				Type = (PowerUpType)Globals.Random.Next(0, (int)PowerUpType.Count);
 		}
 
 
@@ -72,6 +78,7 @@ namespace ggj2015.GameObjects
 						break;
 					case PowerUpType.EverybodySwap:
 						Globals.Controls.EverybodySwap();
+						Globals.Simulation.EverybodySwapTriggered();
 						break;
 					default:
 						throw new Exception();

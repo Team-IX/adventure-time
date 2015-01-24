@@ -7,6 +7,8 @@ namespace ggj2015
 {
 	class PreGameManager
 	{
+		private bool _notFirstTime;
+
 		public void Render()
 		{
 			Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "Adventure Time", new Vector2(Globals.RenderWidth / 2f, 100), Color.White, 0.3f);
@@ -34,6 +36,11 @@ namespace ggj2015
 			{
 				Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "Enter to Start!", new Vector2(Globals.RenderWidth / 2f, 350), Color.White, 0.3f);
 			}
+
+			if (_notFirstTime)
+			{
+				Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "Refresh to Rejoin", new Vector2(Globals.RenderWidth / 2f, 450), new Color(Globals.Random.Next(50, 255), Globals.Random.Next(50, 255), Globals.Random.Next(50, 255)), 0.3f);
+			}
 		}
 
 		public void Update(KeyboardState[] states)
@@ -41,6 +48,7 @@ namespace ggj2015
 			if (states.Any(s => s.IsKeyDown(Keys.Enter)))
 			{
 				Globals.State = GameState.PlayingGame;
+				_notFirstTime = true;
 			}
 		}
 	}
