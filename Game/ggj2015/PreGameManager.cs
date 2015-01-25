@@ -14,7 +14,7 @@ namespace ggj2015
 
 			Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "Players: " + Globals.Controls.CurrentCount, new Vector2(Globals.RenderWidth / 2f, 200), Color.White, 0.2f);
 
-#if truef
+#if true
 			var net = NetworkInterface.GetAllNetworkInterfaces();
 			var ips = net
 				.Where(x => x.OperationalStatus == OperationalStatus.Up && x.NetworkInterfaceType != NetworkInterfaceType.Loopback)
@@ -27,7 +27,7 @@ namespace ggj2015
 			for (int i = 0; i < ips.Length; i++)
 			{
 				var ip = ips[i];
-				Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "http://" + ip, new Vector2(Globals.RenderWidth / 2f, 600 - i * 100), Color.White, 0.3f);
+				Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "http://" + ip, new Vector2(Globals.RenderWidth / 2f, 300 + i * 100), Color.White, 0.3f);
 			}
 #else
 			Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "Connect to our Wifi: GETINTHEGAME", new Vector2(Globals.RenderWidth / 2f, 300), Color.White, 0.22f);
