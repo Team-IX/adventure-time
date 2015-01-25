@@ -6,11 +6,6 @@ var Player = {
 
 var keysPressed = {};
 
-//$(document).ready(function ()
-//{
-//	connectToServer();
-//});
-
 document.addEventListener("DOMContentLoaded", connectToServer, false);
 
 function connectToServer()
@@ -42,7 +37,6 @@ function startGame()
 {
 	// Set background color and shit
 	$('.control').css('background-color', Player.color);
-	$('#bomb').text('Player ' + (Player.number + 1));
 
 	document.body.addEventListener('pointerdown', handlePointer, true);
 	document.body.addEventListener('pointermove', handlePointer, true);
@@ -190,10 +184,9 @@ function tellServerWhatsUp(buttons)
 		}),
 		type: 'POST',
 		dataType: 'json',
-		success: function(data)
+		error: function(request, status, error)
 		{
-			// SHIT SON
-			console.log('!!!!');
+			window.location.reload(true);
 		}
 	});
 }
@@ -213,6 +206,10 @@ function checkForNewColor()
 			Player.color = data.color;
 
 			$('.control').css('background-color', Player.color);
+		},
+		error: function(request, status, error)
+		{
+			window.location.reload(true);
 		},
 		complete: function(data, status)
 		{

@@ -102,6 +102,7 @@ namespace ggj2015
 			var pp = _idLookup[packet.Id];
 			pp.LongPollActive = true;
 			pp.ResetEvent.Wait(TimeSpan.FromSeconds(10));
+			pp.LastContact = Globals.GameTime.TotalGameTime;
 			pp.LongPollActive = false;
 			pp.ResetEvent.Reset();
 

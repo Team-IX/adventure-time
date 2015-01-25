@@ -5,6 +5,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    border-sizing: border-box;
 }
 
 body , document, html {
@@ -15,7 +16,8 @@ body , document, html {
 	height: 100%;
 }
 
-.loading {
+.loading,
+.size-warning {
 	position: fixed;
 	width: 100%;
 	height: 100%;
@@ -23,7 +25,12 @@ body , document, html {
 	background: white;
 }
 
-.loading h1 {
+.size-warning {
+	display: none;
+}
+
+.loading h1,
+.size-warning h1 {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -36,19 +43,27 @@ body , document, html {
 	text-transform: uppercase;
 }
 
+.game {
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	bottom: 10px;
+	left: 10px;
+}
+
 .movement {
-	position: absolute;
-	margin: 2%;
-	width: 56%;
-	height: 96%;
+	position: fixed;
+	left: 10px;
+	top: 50%;
 }
 
 #bomb {
-	position: absolute;
-	height: 96%;
+	position: fixed;
+	right: 10px;
+	top: 10px;
+	bottom: 10px;
+	/*height: 100%;*/
 	width: 38%;
-	margin: 2% 2% 2% 0;
-	right: 0;
 	background-color: grey;
 	background-image: url('/img/sex-bob-omb.png');
 	background-position: center center;
@@ -69,34 +84,32 @@ body , document, html {
 .control:not(#bomb) {
 	position: absolute;
 	background-color: grey;
-	width: 25%;
-	height: 25%;
 }
 
 #up {
-	top: 25%;
-	left: 25%;
+	top: 0;
+	left: 33.3333%;
 	background-image: url('/img/up.png');
 	background-position: center bottom;
 }
 
 #left {
 	left: 0;
-	top: 50%;
+	top: 33.3333%;
 	background-image: url('/img/left.png');
 	background-position: right center;
 }
 
 #right {
-	right: 25%;
-	top: 50%;
+	right: 0;
+	top: 33.3333%;
 	background-image: url('/img/right.png');
 	background-position: left center;
 }
 
 #down {
 	bottom: 0;
-	left: 25%;
+	left: 33.3333%;
 	background-image: url('/img/down.png');
 	background-position: center top;
 }
@@ -104,4 +117,44 @@ body , document, html {
 #up,
 #down {
 	background-size: 25%;
+}
+
+/* Device-specific sizing */
+
+/* Require landscape where possible */
+@media screen and (orientation: portrait) {
+	.size-warning {
+		display: block;
+	}
+
+	.movement,
+	#bomb {
+		display: none;
+	}
+}
+
+/* Classic iPhone and up */
+@media screen and (min-width: 480px) {
+	.movement {
+		height: 240px;
+		width: 240px;
+		margin-top: -120px;
+	}
+	.movement .control {
+		width: 80px;
+		height: 80px;
+	}
+}
+
+/* iPhone 6 and up */
+@media screen and (min-width: 667px) {
+	.movement {
+		height: 300px;
+		width: 300px;
+		margin-top: -150px;
+	}
+	.movement .control {
+		width: 100px;
+		height: 100px;
+	}
 }
