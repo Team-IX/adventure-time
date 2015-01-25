@@ -9,8 +9,6 @@ namespace ggj2015
 	{
 		private readonly Dictionary<string, PlayerPerson> _idLookup = new Dictionary<string, PlayerPerson>();
 
-		private readonly ManualResetEventSlim _longPollReset = new ManualResetEventSlim(false);
-
 		public SharedControlsManager()
 		{
 		}
@@ -43,11 +41,34 @@ namespace ggj2015
 		{
 			lock (this)
 			{
-				_idLookup[packet.Id].Player.ConsumePacket(packet);
+				var pp = _idLookup[packet.Id];
+				pp.LastContact = Globals.GameTime.TotalGameTime;
+				pp.Player.ConsumePacket(packet);
 			}
 		}
 
-		public void EverybodySwap()
+		public void CheckForTimeouts()
+		{
+			lock (this)
+			{
+				foreach (var kvp in _idLookup.ToArray())
+				{
+					var pp = kvp.Value;
+					if (pp.LastContact < Globals.GameTime.TotalGameTime - TimeSpan.FromSeconds(5) && !pp.LongPollActive)
+					{
+						_idLookup.Remove(kvp.Key);
+						Console.WriteLine("timeout 1");
+					}
+					else if (pp.LongPollActive && pp.LastContact < Globals.GameTime.TotalGameTime - TimeSpan.FromSeconds(15))
+					{
+						_idLookup.Remove(kvp.Key);
+						Console.WriteLine("timeout 2");
+					}
+				}
+			}
+		}
+
+		public void EverybodySwap(bool fullyRandom = false)
 		{
 			if (Globals.Simulation.Players.Count(x => x.IsAlive) < 2)
 				return;
@@ -65,7 +86,7 @@ namespace ggj2015
 						continue;
 
 					//Get a random player that is alive
-					var startingPlayer = pp.Player;
+					var startingPlayer = fullyRandom ? null : pp.Player;
 					do
 					{
 						pp.Player = Globals.Simulation.Players[Globals.Random.Next(0, Player.Count)];
@@ -74,22 +95,17 @@ namespace ggj2015
 					pp.RaiseColorChanged();
 				}
 			}
-
-			_longPollReset.Set();
 		}
 
 		public object StatusPoll(BasePacket packet)
 		{
 			var pp = _idLookup[packet.Id];
+			pp.LongPollActive = true;
 			pp.ResetEvent.Wait(TimeSpan.FromSeconds(10));
+			pp.LongPollActive = false;
 			pp.ResetEvent.Reset();
 
 			return new { color = pp.Color };
-		}
-
-		public void Reset()
-		{
-			_idLookup.Clear();
 		}
 
 		public void Stop()
@@ -116,10 +132,15 @@ namespace ggj2015
 			get { return Player.ColorStr; }
 		}
 
+		public TimeSpan LastContact;
+
+		public bool LongPollActive { get; set; }
+
 		public PlayerPerson(Player player, string id)
 		{
 			Player = player;
 			Id = id;
+			LastContact = Globals.GameTime == null ? TimeSpan.Zero : Globals.GameTime.TotalGameTime;
 		}
 
 		public void RaiseColorChanged()

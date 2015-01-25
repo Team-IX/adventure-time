@@ -194,9 +194,9 @@ namespace ggj2015
 			Globals.World.Clear();
 			Globals.GameWorld.InitialPopulate();
 			Globals.Simulation.InitialPopulate();
-			Globals.Controls.Reset();
+			Globals.Controls.EverybodySwap(true);
 			Globals.Simulation.CreatePlayerPersonForGamepads();
-
+			
 			_lastEveryBodySwap = null;
 		}
 

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
@@ -113,8 +114,7 @@ namespace ggj2015
 				}
 				catch (Exception ex)
 				{
-					return "{ error: 'LOL' }";
-					//Console.WriteLine("Failed to get update: " + ex);
+					return "error update";
 				}
 			}
 
@@ -130,8 +130,7 @@ namespace ggj2015
 				}
 				catch (Exception ex)
 				{
-					return "{ error: 'LOL' }";
-					//Console.WriteLine("Failed to get update: " + ex);
+					return "error status";
 				}
 			}
 
@@ -146,7 +145,7 @@ namespace ggj2015
 				return File.ReadAllBytes(fileName);
 			}
 
-			return "You requested " + request.Url;
+			return "error You requested " + request.Url;
 		}
 
 		public void Stop()

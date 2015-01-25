@@ -119,7 +119,7 @@ namespace ggj2015
 				Globals.Simulation.Reset();
 			}
 
-
+			Globals.Controls.CheckForTimeouts();
 			Globals.Simulation.UpdateControls();
 
 			if (Globals.State == GameState.PlayingGame && Globals.Simulation.Players.Count(x => x.IsAlive) == 1)
