@@ -35,11 +35,11 @@ namespace ggj2015
 
 			var playerCellStarts = new[]
 			{
-				new Vector2(0, 0),
-				new Vector2(GameWorld.Width - 1, GameWorld.Height - 1),
+				new Vector2(1, 0),
+				new Vector2(GameWorld.Width - 2, GameWorld.Height - 1),
 
-				new Vector2(GameWorld.Width - 1, 0),
-				new Vector2(0, GameWorld.Height - 1),
+				new Vector2(GameWorld.Width - 1, 1),
+				new Vector2(0, GameWorld.Height - 2),
 			};
 			var colors = new[]
 			{

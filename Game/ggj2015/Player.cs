@@ -108,7 +108,16 @@ namespace ggj2015
 			{
 				TidyUp();
 				var held = _votes.Count(x => x.Value.Controls.Contains(Control.Bomb));
-				var required = Math.Max(1, _votes.Count / 2);
+
+				int required;
+				var players = Globals.Controls.CountPeopleForPlayer(this);
+				if (players <= 1)
+					required = 1;
+				else if (players == 2)
+					required = 2;
+				else
+					required = (int)(players / 2.0f + 0.6f);
+
 				return held >= required;
 			}
 		}
