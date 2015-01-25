@@ -9,6 +9,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using ggj2015.GameObjects;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Nuclex.Input.Devices;
 
@@ -98,6 +99,9 @@ namespace ggj2015
 
 		public void UpdateControls()
 		{
+			if (_gamePadPlayerPerson[0] == null)
+				return;
+
 			for (var i = 0; i < GamePadCount; i++)
 			{
 				var gps = Globals.Input.GamePads[i].GetState();
@@ -182,11 +186,23 @@ namespace ggj2015
 				player.Render();
 			}
 
-			if (_lastEveryBodySwap.HasValue && _lastEveryBodySwap.Value > Globals.GameTime.TotalGameTime - TimeSpan.FromSeconds(1))
+			if (IsSwapActive)
 			{
 				for (var i = 0; i < 6; i++)
 					Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "WHAT DO WE DO NOW !>#$??", new Vector2(Globals.RenderWidth / 2, 50 + i * 100), new Color(Globals.Random.Next(50, 255), Globals.Random.Next(50, 255), Globals.Random.Next(50, 255)), 0.3f);
 			}
+
+			for (var i = 0; i < Players.Length; i++)
+			{
+				var p = Players[i];
+				var count = Globals.Controls.CountPeopleForPlayer(p);
+				Globals.SpriteBatch.DrawString(Resources.Font200, p.ColorStr + ": " + count, new Vector2(10, 50 + i * 30), p.Color, 0, Vector2.Zero, 0.08f, SpriteEffects.None, 0);
+			}
+		}
+
+		public bool IsSwapActive
+		{
+			get { return _lastEveryBodySwap.HasValue && _lastEveryBodySwap.Value > Globals.GameTime.TotalGameTime - TimeSpan.FromSeconds(1); }
 		}
 
 		public void Reset()
@@ -194,8 +210,8 @@ namespace ggj2015
 			Globals.World.Clear();
 			Globals.GameWorld.InitialPopulate();
 			Globals.Simulation.InitialPopulate();
-			Globals.Controls.EverybodySwap(true);
-			Globals.Simulation.CreatePlayerPersonForGamepads();
+			Globals.Controls.Reset();
+			//Globals.Simulation.CreatePlayerPersonForGamepads();
 			
 			_lastEveryBodySwap = null;
 		}

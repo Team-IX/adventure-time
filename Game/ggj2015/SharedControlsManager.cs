@@ -82,9 +82,6 @@ namespace ggj2015
 
 				foreach (var pp in _idLookup.Values)
 				{
-					if (!pp.Player.IsAlive)
-						continue;
-
 					//Get a random player that is alive
 					var startingPlayer = fullyRandom ? null : pp.Player;
 					do
@@ -106,6 +103,9 @@ namespace ggj2015
 			pp.LongPollActive = false;
 			pp.ResetEvent.Reset();
 
+			if (pp.ForceDisconnect)
+				throw new Exception();
+
 			return new { color = pp.Color };
 		}
 
@@ -118,6 +118,51 @@ namespace ggj2015
 		public int CurrentCount
 		{
 			get { return _idLookup.Count; }
+		}
+
+		public void Reset()
+		{
+			lock (this)
+			{
+				foreach (var pp in _idLookup.Values)
+				{
+					pp.ForceDisconnect = true;
+					pp.ResetEvent.Set();
+				}
+				_idLookup.Clear();
+			}
+		}
+
+		public void ReallocatePlayer(Player player)
+		{
+			if (Globals.Simulation.Players.Count(x => x.IsAlive) < 2)
+				return;
+
+			lock (this)
+			{
+				foreach (var pp in _idLookup.Values)
+				{
+					if (pp.Player != player)
+						continue;
+
+
+					//Get a random player that is alive
+					do
+					{
+						pp.Player = Globals.Simulation.Players[Globals.Random.Next(0, Player.Count)];
+					} while (!pp.Player.IsAlive);
+
+					pp.RaiseColorChanged();
+				}
+			}
+		}
+
+		public int CountPeopleForPlayer(Player player)
+		{
+			lock (this)
+			{
+				return _idLookup.Count(x => x.Value.Player == player);
+			}
 		}
 	}
 
@@ -136,6 +181,7 @@ namespace ggj2015
 		public TimeSpan LastContact;
 
 		public bool LongPollActive { get; set; }
+		public bool ForceDisconnect { get; set; }
 
 		public PlayerPerson(Player player, string id)
 		{

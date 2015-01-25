@@ -58,7 +58,7 @@ namespace ggj2015
 			base.Initialize();
 
 
-#if truef
+#if true
 			var form = (Form)System.Windows.Forms.Control.FromHandle(Window.Handle);
 			form.FormBorderStyle = FormBorderStyle.None;
 			_graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
@@ -130,11 +130,14 @@ namespace ggj2015
 
 			if (Globals.State == GameState.PlayingGame)
 			{
-				Globals.Simulation.Update();
-				// TODO: Add your update logic here
+				if (!Globals.Simulation.IsSwapActive)
+				{
+					Globals.Simulation.Update();
+					// TODO: Add your update logic here
 
-				Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
-				Globals.Simulation.PostPhysicsUpdate();
+					Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
+					Globals.Simulation.PostPhysicsUpdate();
+				}
 			}
 			else if (Globals.State == GameState.PreGame)
 			{

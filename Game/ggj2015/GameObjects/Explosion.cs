@@ -59,6 +59,7 @@ namespace ggj2015.GameObjects
 			_lastExplosionCreatedTime = Globals.GameTime.TotalGameTime;
 
 			CreateExplosion(centerX, centerY);
+			Resources.SoundExplosion.Play(0.8f, 0, 0);
 		}
 
 		private bool TryCreateExplosion(int x, int y)
@@ -95,6 +96,8 @@ namespace ggj2015.GameObjects
 
 		private void CreateExplosion(int x, int y)
 		{
+			_madeExplosion = true;
+
 			var body = BodyFactory.CreateRectangle(Globals.World, GameWorld.CellSize - Padding, GameWorld.CellSize - Padding, 0, new Vector2(x * GameWorld.CellSize, y * GameWorld.CellSize), 0, BodyType.Dynamic, this);
 			body.SleepingAllowed = false;
 			body.IsSensor = true;
@@ -123,6 +126,7 @@ namespace ggj2015.GameObjects
 			return true;
 		}
 
+		private bool _madeExplosion;
 		public void Update()
 		{
 			TimeSpan timeBetweenExplosions = TimeSpan.FromSeconds(0.2f);
@@ -134,6 +138,8 @@ namespace ggj2015.GameObjects
 				_lastExplosionCreatedTime = Globals.GameTime.TotalGameTime;
 
 				_explosionsCreated++;
+
+				_madeExplosion = false;
 
 				//left
 				if (_leftStillGoing)
@@ -166,6 +172,11 @@ namespace ggj2015.GameObjects
 					{
 						_downStillGoing = false;
 					}
+				}
+
+				if (_madeExplosion)
+				{
+					Resources.SoundExplosion.Play(0.8f, 0, 0);
 				}
 
 				//TODO: Create

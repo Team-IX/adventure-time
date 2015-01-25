@@ -177,9 +177,16 @@ namespace ggj2015
 
 		public void Die()
 		{
+			if (!IsAlive)
+				return;
+
+
 			IsAlive = false;
 			//todo
 			Body.BodyType = BodyType.Static;
+
+			Resources.Death.Play();
+			Globals.Controls.ReallocatePlayer(this);
 		}
 
 		public void ResetVotes()

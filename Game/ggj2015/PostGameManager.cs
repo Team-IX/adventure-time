@@ -19,6 +19,8 @@ namespace ggj2015
 
 		public void Render()
 		{
+			Globals.SpriteBatch.Draw(Resources.Px, new Rectangle(0, 0, Globals.RenderWidth, Globals.RenderHeight), new Color(0, 0, 0, 80));
+
 			Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "Winner", new Vector2(Globals.RenderWidth / 2f, 100), Color.White, 0.3f);
 
 			Globals.SpriteBatch.DrawStringCentered(Resources.Font200, "Team: " + Winner.ColorStr, new Vector2(Globals.RenderWidth / 2f, 200), Winner.Color, 0.3f);

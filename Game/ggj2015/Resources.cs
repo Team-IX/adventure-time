@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 namespace ggj2015
 {
@@ -30,6 +32,11 @@ namespace ggj2015
 		public static Texture2D[] ExplosionAnim;
 
 		public static SpriteFont Font200;
+
+		public static Texture2D Px;
+
+		public static Song Music;
+		public static SoundEffect SoundExplosion, Death;
 
 		public static void Load(ContentManager content)
 		{
@@ -64,9 +71,20 @@ namespace ggj2015
 				ExplosionAnim[i] = content.Load<Texture2D>("explosion/anim/explosion" + (i + 1));
 			}
 
+			Px = content.Load<Texture2D>("1px");
 
 			Font200 = content.Load<SpriteFont>("Cocogoose_200");
+
+			Music = content.Load<Song>("audio/music");
+			MediaPlayer.Volume = 0.5f;
+			MediaPlayer.IsRepeating = true;
+			MediaPlayer.Play(Music);
+			MediaPlayer.IsRepeating = true;
+
+			SoundExplosion = content.Load<SoundEffect>("audio/explosion");
+			Death = content.Load<SoundEffect>("audio/death");
 		}
+
 	}
 
 	public class SpriteSet
