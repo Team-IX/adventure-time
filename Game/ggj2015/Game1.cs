@@ -132,11 +132,14 @@ namespace ggj2015
 			{
 				if (!Globals.Simulation.IsSwapActive)
 				{
-					Globals.Simulation.Update();
-					// TODO: Add your update logic here
+					lock (Globals.Controls)
+					{
+						Globals.Simulation.Update();
+						// TODO: Add your update logic here
 
-					Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
-					Globals.Simulation.PostPhysicsUpdate();
+						Globals.World.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
+						Globals.Simulation.PostPhysicsUpdate();
+					}
 				}
 			}
 			else if (Globals.State == GameState.PreGame)

@@ -25,8 +25,9 @@ namespace ggj2015
 				}
 				else
 				{
-					var minCount = Globals.Simulation.Players.Min(x => x.PersonCount);
-					p = Globals.Simulation.Players.First(x => x.PersonCount == minCount);
+					p = Globals.Simulation.Players.Where(x => x.IsAlive).OrderBy(x => x.PersonCount).FirstOrDefault();
+					if (p == null)
+						throw new Exception();
 				}
 
 				p.PersonCount++;
@@ -70,11 +71,11 @@ namespace ggj2015
 
 		public void EverybodySwap(bool fullyRandom = false)
 		{
-			if (Globals.Simulation.Players.Count(x => x.IsAlive) < 2)
-				return;
-
 			lock (this)
 			{
+				if (Globals.Simulation.Players.Count(x => x.IsAlive) < 2)
+					return;
+
 				foreach (var p in Globals.Simulation.Players)
 				{
 					p.ResetVotes();
@@ -84,12 +85,14 @@ namespace ggj2015
 				{
 					//Get a random player that is alive
 					var startingPlayer = fullyRandom ? null : pp.Player;
-					do
-					{
-						pp.Player = Globals.Simulation.Players[Globals.Random.Next(0, Player.Count)];
-					} while (!pp.Player.IsAlive || pp.Player == startingPlayer);
 
-					pp.RaiseColorChanged();
+					var possiblePlayers = Globals.Simulation.Players.Where(x => x.IsAlive && x != startingPlayer).ToArray();
+					if (possiblePlayers.Length > 0)
+					{
+						pp.Player = possiblePlayers[Globals.Random.Next(0, possiblePlayers.Length)];
+
+						pp.RaiseColorChanged();
+					}
 				}
 			}
 		}
@@ -145,14 +148,13 @@ namespace ggj2015
 					if (pp.Player != player)
 						continue;
 
-
-					//Get a random player that is alive
-					do
+					var possiblePlayers = Globals.Simulation.Players.Where(x => x.IsAlive).ToArray();
+					if (possiblePlayers.Length > 0)
 					{
-						pp.Player = Globals.Simulation.Players[Globals.Random.Next(0, Player.Count)];
-					} while (!pp.Player.IsAlive);
+						pp.Player = possiblePlayers[Globals.Random.Next(0, possiblePlayers.Length)];
 
-					pp.RaiseColorChanged();
+						pp.RaiseColorChanged();
+					}
 				}
 			}
 		}

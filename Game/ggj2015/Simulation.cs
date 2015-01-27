@@ -207,12 +207,14 @@ namespace ggj2015
 
 		public void Reset()
 		{
-			Globals.World.Clear();
-			Globals.GameWorld.InitialPopulate();
-			Globals.Simulation.InitialPopulate();
-			Globals.Controls.Reset();
-			//Globals.Simulation.CreatePlayerPersonForGamepads();
-			
+			lock (Globals.Controls)
+			{
+				Globals.World.Clear();
+				Globals.GameWorld.InitialPopulate();
+				Globals.Simulation.InitialPopulate();
+				Globals.Controls.Reset();
+				//Globals.Simulation.CreatePlayerPersonForGamepads();
+			}
 			_lastEveryBodySwap = null;
 		}
 

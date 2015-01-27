@@ -29,8 +29,14 @@ namespace ggj2015
 
 			//netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
 
-			_listener.Start();
-
+			try
+			{
+				_listener.Start();
+			}
+			catch
+			{
+				throw new Exception("Run this: netsh http add urlacl url=http://*:80/ user={USER}");
+			}
 			//Process.Start("http://127.0.0.1:" + port);
 
 			_rootPath = "web";
@@ -92,14 +98,21 @@ namespace ggj2015
 
 			if (request.Url.LocalPath.StartsWith("/join"))
 			{
-				var p = _sharedControlsManager.Join();
-
-				return JsonConvert.SerializeObject(new
+				try
 				{
-					playerNumber = p.Player.PlayerNumber,
-					id = p.Id,
-					color = p.Color
-				});
+					var p = _sharedControlsManager.Join();
+
+					return JsonConvert.SerializeObject(new
+					{
+						playerNumber = p.Player.PlayerNumber,
+						id = p.Id,
+						color = p.Color
+					});
+				}
+				catch (Exception ex)
+				{
+					return "error join";
+				}
 			}
 
 			if (request.Url.LocalPath.StartsWith("/update"))
